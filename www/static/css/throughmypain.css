@@ -4,22 +4,6 @@
     background-color: rgb(50, 21, 100);
 }
 
-#logo{
-    color: cornsilk;
-    font-size: 18pt;
-}
-
-#logo-text-1{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color:  #333333;
-}
-
-#logo-text-2{
-    font-family: serif;
-    font-weight: bold;
-    color: rgb(112, 48, 230);
-}
-
 #footer-bar{
     height: 30px;
     background-color: #222;
@@ -45,4 +29,58 @@ footer{
     color: #f8f8f8;
     background-color:rgb(50, 21, 100); 
     height: 90px;
+}
+
+/* Through My Pain: */
+.Logo{
+font-family: Phosphate-Inline;
+font-size: 49.22px;
+color: #7068B1;
+text-align: center;
+}
+
+header{
+margin-top: 60px;
+margin-bottom: 60px;
+}
+
+header nav ul li{
+    display: inline-block;
+    margin-left: 68px;
+    margin-right: 68px;
+    border: 0px;
+    height: 100px;
+    width: 80px;
+}
+
+
+
+header nav ul li a{
+    display: block;
+    height: auto;
+    width: auto;
+}
+
+nav ul{
+    padding-left: 0%;
+    padding-right: 0%;
+    margin-bottom: 0%;
+    height: 100px;
+}
+
+img { width: auto; height:100% ; }
+
+#nav-body{
+    margin-right: 0%;
+}
+
+#nav-info{
+    margin-left: 0%;
+}
+
+#nav-logo{
+    margin-left: 60px;
+    margin-right: 60px;
+    width: 400px;
+    height: 100px;
 }
