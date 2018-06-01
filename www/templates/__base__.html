@@ -4,54 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Through My Pain • The follow-through investigation about your pain</title>
+    <title>Through My Pain • A follow-through investigation about your pain</title>
     <link rel="stylesheet" href="../static/css/uikit.min.css" />
-    <link rel="stylesheet" href="../static/css/uikit-rtl.min.css" />
+    <!--link rel="stylesheet" href="../static/css/uikit-rtl.min.css" /-->
     <link rel="stylesheet" href="../static/css/throughmypain.css"/>
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
     <script src="../static/js/uikit.min.js"></script>
     <script src="../static/js/uikit-icons.min.js"></script>
+    <script src="../static/js/throughmypain.js"></script>
+
+
 </head>
 <body>
-    <!--head bar-->
-    <div class="header">
-    </div>
-
+    <!--header-->
     <header>
+        <!--head bar-->
+        <div class="header-bar"></div>
         <!--navigation bar-->
-        <nav>
+        <nav id="nav-bar">
             <ul>
+                <div id="mend" style="float: left; display: inline-block; width: 17px; max-width: 17px; height: 70px;"></div>
                 <li id="nav-body">
-                    <a href="#">
-                        <img src="../static/image/body.svg">
+                    <a href="/" class=" a-body a-body:hover uk-text-center">
+                            Recording
                     </a>
-                    <div class="uk-text-center">Record</div>
                 </li>
-                <li>
-                    <a href="#">
-                        <img src="../static/image/analysis.svg">        
+                <li id="nav-ana">
+                    <a href="/" class=" a-analysis a-analysis:hover uk-text-center">
+                            Analysis
                     </a>
                 </li>
                 <li id="nav-logo"> 
-                    <a href="#">
-                        <img src="../static/image/logo.svg">
+                    <a href="/" class="a-logo">
                     </a>
                 </li>
-                <li id="nav-user">
-                    <a href="#">
-                        <img src="../static/image/user.svg">
+                <li id="nav-user"> 
+                    <a href="/" class=" a-user a-user:hover uk-text-center">
+                            Account
                     </a>
                 </li>
                 <li id="nav-info">
-                    <a href="#">
-                        <img src="../static/image/info.svg">
+                    <a href="/" class=" a-info a-info:hover uk-text-center">
+                            Help
                     </a>
                 </li>
             </ul>
         </nav>
     </header>
 
-    <div>
+
+    <div class="nav-bar-space"></div>
+    <div class="content">
         <!--containt-->
+        <hr>1<hr>2<hr>3<hr>4<hr>5<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1
+        <hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1
+
     </div>
 
     <!--footer bar-->
@@ -61,7 +68,6 @@
             <li><a href="" uk-icon="icon: github; ratio:1.5"></a></li>
             <li><a href="" uk-icon="icon: linkedin; ratio:1.5"></a></li>
         </ul>
-            
     </section>
 
     <!--footer-->

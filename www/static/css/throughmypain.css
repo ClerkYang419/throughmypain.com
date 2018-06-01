@@ -1,8 +1,4 @@
-.header{
-    width: 100%;
-    height: 10px;
-    background-color: rgb(50, 21, 100);
-}
+/* footer-bar */
 
 #footer-bar{
     height: 30px;
@@ -11,7 +7,6 @@
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
-    box-shadow: 0px -5px 10px 5px rgba(0,0,0,.08);
 }
 
 #footer-bar li{
@@ -20,67 +15,161 @@
     margin-right: 15px;
 }
 
-.nav-text{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
 footer{
     font-family: 'Times New Roman', Times, serif;
     color: #f8f8f8;
     background-color:rgb(50, 21, 100); 
     height: 90px;
+    box-shadow: 0px -5px 10px 5px rgba(0,0,0,.08);
 }
 
-/* Through My Pain: */
-.Logo{
-font-family: Phosphate-Inline;
-font-size: 49.22px;
-color: #7068B1;
-text-align: center;
+html{
+    line-height: 0px;
 }
 
+/* header-bar and nav-bar */
 header{
-margin-top: 60px;
-margin-bottom: 60px;
+    z-index: 1;
+    max-width: 100%;
+}
+
+.header-bar{
+    max-width: 100%;
+    height: 15px;
+    background-color:  #ffffff;
+}
+
+header nav{
+    position: fixed;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 0px;
+}
+
+header nav ul{
+    margin-left: 60px;
+    margin-right: 60px;
+    padding: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    border: 0px;
+    list-style-type: none;
+    font-size: 0px;
+    display: flex;
 }
 
 header nav ul li{
     display: inline-block;
-    margin-left: 68px;
-    margin-right: 68px;
+    position: relative;
+    float: left;
+    margin: 0px;
     border: 0px;
-    height: 100px;
+    padding: 0px;
     width: 80px;
 }
 
-
-
 header nav ul li a{
-    display: block;
-    height: auto;
-    width: auto;
+    color: #222;
+    display: inline-block;
+    letter-spacing: 1px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
 }
 
-nav ul{
-    padding-left: 0%;
-    padding-right: 0%;
-    margin-bottom: 0%;
-    height: 100px;
+header nav ul li a:hover{
+    color: #222;
 }
 
-img { width: auto; height:100% ; }
+.nav-bar-fixed{
+    box-shadow: 5px 0px 10px 2px rgba(0,0,0,.08);
+    top: 0px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
 
 #nav-body{
-    margin-right: 0%;
+    margin-left: 45px;
+}
+
+#nav-ana{
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+#nav-user{
+    margin-left: 45px;
+    margin-right: 45px;
 }
 
 #nav-info{
-    margin-left: 0%;
+    margin-right: 45px;
 }
 
 #nav-logo{
     margin-left: 60px;
     margin-right: 60px;
     width: 400px;
-    height: 100px;
+    height: 70px;
+}
+
+.a-body{
+    background: url(../image/body.svg) no-repeat center top;
+    padding-top: 50px;
+}
+.a-body:hover{
+    background: url(../image/body_2.svg) no-repeat center top;
+    color: #9E005D;
+    text-decoration: none;
+}
+
+.a-analysis{
+    background: url(../image/analysis.svg) no-repeat center top;
+    padding-top: 50px;
+}
+
+.a-analysis:hover{
+    background: url(../image/analysis_2.svg) no-repeat center top;
+    color: #9E005D;
+    text-decoration: none;
+}
+
+.a-logo{
+    background: url(../image/logo.svg) no-repeat center top;
+    padding-top: 70px;
+    line-height: 0px;
+}
+
+.a-user{
+    background: url(../image/user.svg) no-repeat center top;
+    padding-top: 50px;
+}
+
+.a-user:hover{
+    background: url(../image/user_2.svg) no-repeat center top;
+    color: #9E005D;
+    text-decoration: none;
+}
+
+.a-info{
+    background: url(../image/info.svg) no-repeat center top;
+    padding-top: 50px;
+}
+
+.a-info:hover{
+    background: url(../image/info_2.svg) no-repeat center top;
+    color: #9E005D;
+    text-decoration: none;
+}
+
+.nav-bar-space{
+    height: 116px;
+}
+
+.content{
+    background-color: #f1f1f1;
 }
