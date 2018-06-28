@@ -3,6 +3,7 @@ $(function(){
     var win=$(window); //得到窗口对象
     var doc=$(document);//得到document文档对象。
     win.scroll(function(){
+        'asd'.tr
       if(doc.scrollTop()>=1){
         nav.addClass("nav-bar-fixed");
       }else{
