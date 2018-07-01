@@ -10,12 +10,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema throughmypain
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `throughmypain` ;
+DROP DATABASE IF EXISTS `throughmypain` ;
 
 -- -----------------------------------------------------
 -- Schema throughmypain
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `throughmypain` DEFAULT CHARACTER SET utf8 ;
+CREATE DATABASE IF NOT EXISTS `throughmypain` DEFAULT CHARACTER SET utf8 ;
 USE `throughmypain` ;
 
 -- -----------------------------------------------------
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `throughmypain`.`Users` (
   `records_number` INT NOT NULL,
   `last_record_date` INT NOT NULL,
   `create_at` REAL NOT NULL,
-  `admin` TINYINT NOT NULL,
+  `admin` BOOLEAN NOT NULL,
   PRIMARY KEY (`User_ID`),
   UNIQUE INDEX `index_user_name` (`user_name` ASC))
 ENGINE = InnoDB;
@@ -61,9 +61,10 @@ CREATE TABLE IF NOT EXISTS `throughmypain`.`Pains` (
   `Pain_ID` INT NOT NULL,
   `region_count` INT NOT NULL,
   `description` VARCHAR(500) NOT NULL,
+  `pain_character` VARCHAR(50) NOT NULL,
   `pain_severity` INT NOT NULL,
-  `depth` VARCHAR(45) NOT NULL,
-  `frequency` VARCHAR(45) NOT NULL,
+  `depth` VARCHAR(50) NOT NULL,
+  `frequency` VARCHAR(50) NOT NULL,
   `Record_ID` INT NOT NULL,
   `Users_User_ID` INT NOT NULL,
   PRIMARY KEY (`Pain_ID`),
@@ -133,9 +134,10 @@ CREATE TABLE IF NOT EXISTS `throughmypain`.`Reports` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE USER 'ubuntu' IDENTIFIED BY 'password';
-
-GRANT SELECT, INSERT, TRIGGER, UPDATE, DELETE ON TABLE `throughmypain`.* TO 'ubuntu';
+drop user 'ubuntu'@'localhost';
+flush privileges;
+CREATE USER 'ubuntu'@'localhost' identified by 'ubuntu';
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE `throughmypain`.* TO 'ubuntu'@'localhost';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
