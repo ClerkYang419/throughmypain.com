@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import sys
 import os
-sys.path.append('../')
-#sys.path.append(os.environ['WORKSPACE'])
+# sys.path.append('../')
+sys.path.append(os.environ['WORKSPACE'])
 import unittest
 import tempfile
 from www import fsk
