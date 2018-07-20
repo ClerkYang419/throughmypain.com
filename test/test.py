@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import sys
 import os
-#sys.path.append('../')
-sys.path.append(os.environ['WORKSPACE'])
+sys.path.append('../')
+#sys.path.append(os.environ['WORKSPACE'])
 import unittest
 import tempfile
 from www import fsk
@@ -34,6 +34,8 @@ class standalonetest(unittest.TestCase):
         assert 'Invalid username/password'.encode() in rv.data
         rv = self.login('admin', '')
         assert 'Invalid username/password'.encode() in rv.data
+        # self.app.post('/shutdown')
+
 
 if __name__ == '__main__':
     unittest.main()
