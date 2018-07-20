@@ -34,7 +34,6 @@ class standalonetest(unittest.TestCase):
         assert 'Invalid username/password'.encode() in rv.data
         rv = self.login('admin', '')
         assert 'Invalid username/password'.encode() in rv.data
-        # self.app.post('/shutdown')
 
 
 if __name__ == '__main__':
