@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import sys
-sys.path.append('../www')
 import unittest
 import os
 import tempfile
+sys.path.append(os.environ['WORKSPACE'])
 import fsk
 
 class standalonetest(unittest.TestCase):
