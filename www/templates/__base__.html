@@ -25,26 +25,26 @@
             <ul>
                 <div id="mend" style="float: left; display: inline-block; width: 17px; max-width: 17px; height: 70px;"></div>
                 <li id="nav-body">
-                    <a href="/" class=" a-body a-body:hover uk-text-center">
+                    <a href="/ulist" class=" a-body a-body:hover uk-text-center">
                             Recording
                     </a>
                 </li>
                 <li id="nav-ana">
-                    <a href="/" class=" a-analysis a-analysis:hover uk-text-center">
+                    <a href="/analysis" class=" a-analysis a-analysis:hover uk-text-center">
                             Analysis
                     </a>
                 </li>
                 <li id="nav-logo"> 
-                    <a href="/" class="a-logo">
+                    <a href="/ulist" class="a-logo">
                     </a>
                 </li>
                 <li id="nav-user"> 
-                    <a href="/" class=" a-user a-user:hover uk-text-center">
+                    <a href="/user" class=" a-user a-user:hover uk-text-center">
                             Account
                     </a>
                 </li>
                 <li id="nav-info">
-                    <a href="/" class=" a-info a-info:hover uk-text-center">
+                    <a href="/help" class=" a-info a-info:hover uk-text-center">
                             Help
                     </a>
                 </li>
@@ -56,9 +56,17 @@
     <div class="nav-bar-space"></div>
     <div class="content">
         <!--containt-->
-        <hr>1<hr>2<hr>3<hr>4<hr>5<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1
-        <hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1<hr>1
-
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+        {% block content %}
+        {% endblock %}
     </div>
 
     <!--footer bar-->
