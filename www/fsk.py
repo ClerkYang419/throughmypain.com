@@ -11,7 +11,7 @@ app.secret_key = os.urandom(24)
 
 @app.route('/')
 def index():
-    return redirect(url_for('ulist'))
+    return render_template('login.html', )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -19,7 +19,8 @@ def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
         if valid_login(request.form['username'],request.form['password']):
-            return redirect(url_for('ulist'))
+            flash('You were logged in')
+            return render_template('list.html', message='You were logged in')
         else:
             flash('Invalid username/password')
 
@@ -74,14 +75,10 @@ def user():
 
 @app.route('/logout', methods=['POST','GET'])
 def logout():
-    if 'username' in session:
-        session.pop('username',None)
-        return redirect(url_for('login'))
-    else:
-        return redirect(url_for('login'))
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return render_template('login.html')
             
-            
-
 @app.route('/info', methods=['POST','GET'])
 def info():
     return render_template('help.html')
@@ -89,6 +86,17 @@ def info():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
+
+def kill():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+@app.route('/kill', methods=['POST'])
+def shutdown():
+    kill()
+    return 'Server shutting down...'
 
 if __name__ == '__main__':
     app.debug = True
