@@ -4,24 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Through My Pain • A follow-through investigation about your pain</title>
+    {% block meta %}<!-- block meta  -->{% endblock %}
+    <title>{% block title %} ? {% endblock %} - Through My Pain • A follow-through investigation about your pain</title>
     <link rel="stylesheet" href="../static/css/uikit.min.css" />
+    <!-- <link rel="stylesheet" href="../static/css/bootstrap.min.css"/> -->
     <!--link rel="stylesheet" href="../static/css/uikit-rtl.min.css" /-->
     <link rel="stylesheet" href="../static/css/throughmypain.css"/>
     <script src="../static/js/jquery-3.3.1.min.js"></script>
-    <script src="../static/js/uikit.min.js"></script>
-    <script src="../static/js/uikit-icons.min.js"></script>
-    <script src="../static/js/throughmypain.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 
-
+    {% block beforehead %}<!-- before head  -->{% endblock %}
+    <script src="../static/js/uikit.min.js" defer></script>
+    <script src="../static/js/uikit-icons.min.js" defer></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="../static/js/throughmypain.js" defer></script>
 </head>
 <body>
+    <div id="main" >
     <!--header-->
     <header>
-        <!--head bar-->
-        <div class="header-bar"></div>
         <!--navigation bar-->
-        <nav id="nav-bar">
+        <div uk-sticky class="uk-navbar-container uk-pedding" uk-navbar:"mode: click">
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                    <li>
+                        <a uk-navbar-toggle-icon onclick="openNav()"></a>
+                        <div id="mySidenav" class="sidenav"> 
+                            <a href="javascript:void(0)" class="closebtn uk-padding-remove" onclick="closeNav()">&times;</a>
+                            <a class="nav-body uk-display-block" href="/ulist">Recording</a>
+                            <a class="nav-analysis" href="/analysis">Analysis</a>
+                            <a class="nav-user" href="/user">Account</a>
+                            <a class="nav-info" href="/info">Help</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="uk-navbar-center">
+                <a class="uk-navbar-item" href="#">
+                <img src="../static/image/logo.svg" width="400" height="80" uk-svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div  style="min-height: 400px" class="uk-section uk-section-default uk-dark uk-container uk-padding-remove-top uk-margin">
+        <!-- containt -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    
+    
+    <!--footer bar-->
+    <!-- <section class="uk-section-secondary uk-clearfix uk-margin uk-padding-small uk-light uk-text-center uk-box-shadow-large" uk-grad>
+        <div class="uk-display-inline-block">
+            <a class="uk-margin-left uk-margin-right" href="" uk-icon="icon: github; ratio:1.5"></a>
+            <a href="" uk-icon="icon: behance; ratio:1.5"></a>
+            <a class="uk-margin-left uk-margin-right" href="" uk-icon="icon: linkedin; ratio:1.5"></a>
+        </div>
+    </section> -->
+
+    <!--footer-->
+    <hr>
+    <footer class="uk-section-secondary uk-box-shadow-large uk-text-middle uk-padding uk-light uk-width-1-1">
+            <div class="uk-text-center">Ximing Yang cly7100@gmail.com</div>
+    </footer> 
+</div>
+</body>
+</html>
+
+
+        <!--nav uk-sticky id="nav-bar">
             <ul>
                 <div id="mend" style="float: left; display: inline-block; width: 17px; max-width: 17px; height: 70px;"></div>
                 <li id="nav-body">
@@ -51,37 +114,3 @@
             </ul>
         </nav>
     </header>
-
-
-    <div class="nav-bar-space"></div>
-    <div class="content">
-        <!--containt-->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-        {% block content %}
-        {% endblock %}
-    </div>
-
-    <!--footer bar-->
-    <section id = "footer-bar" class="uk-light">
-        <ul>
-            <li><a href="" uk-icon="icon: facebook; ratio:1.5"></a></li>
-            <li><a href="" uk-icon="icon: github; ratio:1.5"></a></li>
-            <li><a href="" uk-icon="icon: linkedin; ratio:1.5"></a></li>
-        </ul>
-    </section>
-
-    <!--footer-->
-    <hr>
-    <footer class="uk-text-middle uk-padding-small uk-width-1-1">
-            <div style="margin: 18px" class="uk-text-center">2018 Ximing Yang, University of Bath, Bath, UK</div>
-    </footer>
-</body>
-</html>

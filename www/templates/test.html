@@ -1,0 +1,51 @@
+{% extends '__base__.html' %}
+
+
+{% block beforehead %}
+<script>
+let parent = new Vue({ el: '#app', data () { return { name: 'w3cplus', age: 7 } }, components: { 'child': { template: '#child', props: ['myName', 'myAge'], data () { return { childMyName: this.myName, childMyAge: this.myAge } }, watch: { childMyName: function (val) { this.$emit('update:my-name', val) }, childMyAge: function (val) { this.$emit('update:my-age', val) } } } } })著作权归作者所有。
+
+
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="app"> 
+    <div class="parent"> 
+        <h3>父组件Parent数据</h3> 
+        <ul> 
+            <li> 
+            <label>姓名:</label> 
+            <span>{{ name }}</span> 
+            <input type="text" v-model="name" /> 
+        </li> 
+        <li> <label>年龄:</label> 
+            <span>{{ age }}</span> 
+            <input type="number" v-model="age" /> 
+        </li>
+     </ul> 
+    </div> 
+    <child :my-name="name" :my-age="age" @update:my-name="val => name = val" @update:my-age="val => age = val">
+
+    </child> </div> 
+    <template id="child"> 
+        <div class="child"> 
+            <h3>子组件child数据</h3> 
+            <ul> 
+                <li> <label>姓名</label> 
+                    <span>{{ myName }}</span> 
+                    <input type="text" v-model="childMyName" /> 
+                </li> 
+                <li> 
+                    <label>年龄</label> 
+                    <span>{{ myAge }}</span> 
+                    <input type="number" v-model="childMyAge" /> 
+                </li> </ul> 
+            </div> 
+        </template>著作权归作者所有。
+
+
+
+
+{% endblock %}

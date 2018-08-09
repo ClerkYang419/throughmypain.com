@@ -1,0 +1,251 @@
+{% extends '__base__.html' %}
+
+
+{% block beforehead %}
+<script>
+
+    function unique5(array){
+  var r = [];
+  for(var i = 0, l = array.length; i < l; i++) {
+    for(var j = i + 1; j < l; j++)
+      if (array[i] === array[j]) j = ++i;
+    r.push(array[i]);
+  }
+  return r;
+}
+
+    function inivm(rid) {
+        
+        var vm = new Vue({   
+                   delimiters: ["[[", "]]"],
+                   el: '#vm',
+                   data: {
+                        brief: '',
+                        exist_pains: [],
+                        selected_ex_pain: {},
+                        pain_count: 0,
+                        pains_list:[],
+                        notif:null,
+                        notif_list:null,
+                        record_id: rid.slice(0,8),
+                        flag_add_ex: false
+                   },
+
+                   created: function(){
+                            if(pains_list == []){
+                                this.$data.notif_list = "You have no pain in the list currently";
+                            }
+                            else{
+                                this.$data.notif_list = null;
+                                // this.$data.pains_list = Set(this.$data.pains_list);
+                            }       
+                   },
+                   filters:{
+                    id_filter: function(value){
+                        value = value.slice(0,8);
+                        return value;
+                    }
+                   },
+                   methods: {
+                        find_ex_pain: function(){
+                        $.get("/api/plist", JSON.stringify(this.$data)).done(function(get_pains){
+                            //    alert(JSON.stringify(get_records));
+                            if(get_pains == '[]'){
+                                vm.$data.notif = "You have no pain recorded currently";
+                            }
+                            else{
+                                vm.$data.notif = null;
+                                vm.$data.exist_pains = JSON.parse(get_pains);
+                                // alert(JSON.stringify(vm.$data.exist_pains))
+                                vm.$data.flag_add_ex = true;
+                            }
+                           });
+                       },
+
+                       delete_pain: function (pain) {
+                        //    alert(JSON.stringify(pain));
+                            var index = this.$data.pains_list.indexOf(pain);
+                            // alert(index);
+                            this.$data.exist_pains.unshift(pain);
+                            this.$data.pains_list.splice(index,1);
+                            this.$data.pain_count--;
+                        // $.get("/api/plist", JSON.stringify(this.$data)).done(function(get_pains){
+                        //     //    alert(JSON.stringify(get_pains));
+                        //     if(get_pains == '[]'){
+                        //         vm.$data.notif = "You have no pain on record currently";
+                        //     }
+                        //     else{
+                        //         vm.$data.notif = null;
+                        //         vm.$data.pains = JSON.parse(get_pains);
+                        //     }
+                        //    });
+                       },
+
+                       add_ex_pain: function () {
+                        // $.get("/api/rplist", JSON.stringify(this.$data)).done(function(get_reports){
+                        //     //   alert(JSON.stringify(get_reports));
+                        //     if(get_reports == '[]'){
+                        //         vm.$data.notif = "You have no report currently";
+                        //     }
+                        //     else{
+                        //         vm.$data.notif = null;
+                        //         vm.$data.reports = JSON.parse(get_reports);
+                        //     }
+                        //    });
+                            // alert(typeOf(this.selected_ex_pain));
+                            // var index=0;
+                            // if(!isNaN(parseInt(this.selected_ex_pain[4]))){
+                            //     // alert(parseInt(this.selected_ex_pain[4]));
+                            //     index = 10*parseInt(this.selected_ex_pain[3])+parseInt(this.selected_ex_pain[4])-1;
+                            //     // alert(index);
+                            // }else{
+                            //     index = parseInt(this.selected_ex_pain[3])-1;
+                            // }
+                            // alert(JSON.stringify(vm.$data.exist_pains[index]));
+                            // alert(vm.$data.exist_pains[index]);
+                            // alert(JSON.stringify(this.exist_pains));
+                            // alert(JSON.stringify(this.selected_ex_pain));
+                            
+                            this.$data.pains_list.push(this.selected_ex_pain);
+                            var length = this.$data.pains_list.length;
+                            this.$data.pains_list = unique5(this.$data.pains_list);
+                            if(this.$data.pains_list.length == length){
+                                this.$data.exist_pains.splice(this.$data.exist_pains.indexOf(this.selected_ex_pain),1);
+                                // this.$data.pains_list = Set(this.$data.pains_list);
+                                this.$data.pain_count++;
+                            }
+                            
+
+                            // alert(JSON.stringify(vm.$data.pains_list));
+                       },
+
+                       submit:function () {
+                        // var data = {
+                        //     "pain_count":this.$data.pain_count,
+                        //     "brief":this.$data.brief
+                        // };
+                        // alert(data);
+                        $.post("/api/add_new_record",JSON.stringify(this.$data)).done(function(data){
+                            window.location.href = "/ulist";
+                        });
+                       },
+
+                       cancel:function(){
+                        if (confirm("\nYou will lose information of this page.\n\nDo you want to continue?\n")){
+                            window.location.href = "/ulist";
+                        }else{
+                            return
+                        }
+                       },
+
+                       add_new_pain: function () {
+                            // alert('1231');
+                        //     $.post("/", JSON.stringify(this.$data)).done(function(new_pain){
+                        //     //    alert(JSON.stringify(data2));
+                        //     // inivm();               
+                        //    });
+                        
+                        window.location.href = "/new_pain";
+                       }
+                   }
+               });
+            return vm;
+    }
+
+        $(function() {
+               $.get("/api/get_rid", JSON.stringify(this.$data)).done(function(data){
+                            // alert(JSON.stringify(data));
+                            // var getData = JSON.parse(data); 
+                            rid = JSON.parse(data);
+                            // alert(JSON.parse(data));
+                            var vm = inivm(rid);
+                            // vm.$data.pains_list.push();
+                            // vm.$data.pain_count++;
+                           });
+                // var rid = 3;
+                
+               // $('#vm').show();
+           });
+           
+   </script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="uk-padding uk-padding-remove-top">
+    <form id="vm" v-on:submit.prevent="submit" class="uk-width-3-4 uk-align-center">
+        <div>
+            <div class="uk-inline-block">
+                <span>Record ID:</span>
+                <span v-cloak>#[[record_id]]</span>
+            </div>
+            <div class="uk-inline-block uk-float-right">
+                <span>Date:</span>
+                <span>Mon 18 Jun 2018</span>
+            </div>   
+        </div>
+
+        <hr>
+        <div class="uk-padding uk-padding-remove-top">
+            <div class="uk-margin">
+                <span>Brief statement:</span>
+                <input v-model="brief" class="uk-input uk-form-small uk-width-large" placeholder="Briefly summarize your record content here">
+            </div>
+            <div class="uk-margin">
+                <span>Pain count:</span>
+                <span v-cloak>[[pain_count]]</span>
+            </div>
+    
+            <div class="uk-margin">
+                <button v-on:click="add_new_pain" type="button" class="uk-button-small uk-button-primary" uk-tooltip="title: Click me, if you have a new pain need to be recorded; pos: left;">Add new pain</button>
+                <button @click.once="find_ex_pain" type="button" class="uk-button-small uk-button-default" uk-tooltip="title: Click me, if you want to update an pain recorded in last few days; pos: right">Add existing pain</button>
+            </div>
+
+            <div class="uk-margin" v-if="flag_add_ex">
+                <select v-model="selected_ex_pain" class="uk-select uk-form-small uk-width-5-6">
+                        <option v-bind:value="pain" v-for="pain of exist_pains">[[pain.Pain_ID | id_filter]], [[pain.description]], [[pain.depth]], [[ pain.frequency]]</option>
+                </select>
+                <button type="button" v-on:click="add_ex_pain" class="uk-button-small uk-button-primary uk-float-right" uk-tooltip="title: Add to the table below; pos: right">Add</button>
+            </div>
+
+            <div>
+                <table class="uk-table uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Character</th>
+                            <th>Region count</th>
+                            <th>Severity</th>
+                            <th>Depth</th>
+                            <th>Frequency</th>
+                            <th>Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="pain in pains_list">
+                            <td>#[[pain.Pain_ID | id_filter]]</td>
+                            <td v-text="pain.pain_character"></td>
+                            <td v-text="pain.region_count"></td>
+                            <td v-text="pain.pain_severity"></td>
+                            <td v-text="pain.depth"></td>
+                            <td v-text="pain.frequency"></td>
+                            <td><button type="button" class="uk-button uk-button-default uk-button-small" uk-tooltip="title: Click me, if you want to delete a pain of this line; pos: left" @click="delete_pain(pain)">delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                [[notif_list]]
+            </div>
+            
+            <!-- <div>
+                <canvas></canvas>
+            </div> -->
+
+            <div class="uk-margin-large">
+                <button type="submit" class="uk-button-primary uk-button-small uk-float-right">Done</button>
+                <button type="button" @click="cancel" class="uk-button-default uk-button-small uk-float-right uk-margin-right">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,23 +1,179 @@
 {% extends '__base__.html' %}
 
-{% block content %}
-<div>
-        <a href="#offcanvas-slide" class="uk-button uk-button-default" uk-toggle>Open</a>
 
-        <div id="offcanvas-slide" uk-offcanvas>
-            <div class="uk-offcanvas-bar">
-        
-                <ul class="uk-nav uk-nav-default">
-                    <li class="uk-active"><a href="#">Active</a></li>
-                    <li><a href="#">Item</a></li>
-                    <li class="uk-nav-header">Header</li>
-                    <li><a href="#">Item</a></li>
-                    <li><a href="#">Item</a></li>
-                    <li class="uk-nav-divider"></li>
-                    <li><a href="#">Item</a></li>
+{% block beforehead %}
+<script>
+
+    function inivm(data) {
+        var vm = new Vue({   
+                   delimiters: ["[[", "]]"],
+                   el: '#vm',
+                   data: {
+                        records: JSON.parse(data),
+                        pains: {},
+                        reports: {},
+                        notif: null
+                   },
+                   
+                   filters: {
+                    id_filter:function(value){
+                        value=value.slice(0,8);
+                        return value;
+                    }
+                   },
+                   created: function(){
+                            if(data == '[]'){
+                                this.$data.notif = "You have no record currently";
+                            }
+                            else{
+                                this.$data.notif = null;
+                            }       
+                   },
+                   methods: {
+                       getRecords: function(){
+                        $.get("/api/rlist", JSON.stringify(this.$data)).done(function(get_records){
+                            //    alert(JSON.stringify(get_records));
+                            if(get_records == '[]'){
+                                vm.$data.notif = "You have no record currently";
+                            }
+                            else{
+                                vm.$data.notif = null;
+                                vm.$data.records = JSON.parse(get_records);
+                            }
+                           });
+                       },
+
+                       getPains: function () {
+                        $.get("/api/plist", JSON.stringify(this.$data)).done(function(get_pains){
+                            //    alert(JSON.stringify(get_pains));
+                            if(get_pains == '[]'){
+                                vm.$data.notif = "You have no pain on record currently";
+                            }
+                            else{
+                                vm.$data.notif = null;
+                                vm.$data.pains = JSON.parse(get_pains);
+                                // alert(vm.$data.pains.depth);
+                            }
+                           });
+                       },
+
+                       getReports: function () {
+                        $.get("/api/rplist", JSON.stringify(this.$data)).done(function(get_reports){
+                            //   alert(JSON.stringify(get_reports));
+                            if(get_reports == '[]'){
+                                vm.$data.notif = "You have no report currently";
+                            }
+                            else{
+                                vm.$data.notif = null;
+                                vm.$data.reports = JSON.parse(get_reports);
+                            }
+                           });
+                       },
+
+                       newRecord:function () {
+                        $.post("/api/add_new_record", JSON.stringify(this.$data.records)).done(function(data2){
+                            //    alert(JSON.stringify(data2));
+                            // inivm(data2);               
+                           });
+                        window.location.href = "/new_record";
+                       }
+                   }
+               });
+    }
+
+        $(function() {
+               $.get("/api/rlist", JSON.stringify(this.$data)).done(function(data2){
+                            //    alert(JSON.stringify(data2));
+                            inivm(data2);               
+                           });
+               // $('#vm').show();
+           });
+           
+   </script>
+{% endblock %}
+
+{% block content %}
+<div id="vm" class="uk-margin">
+    <div uk-grid>
+            <div class="uk-width-small@s">
+                <ul class="uk-nav uk-nav-default uk-text-bold" uk-switcher="connect: #component-nav; animation: uk-animation-fade; toggle: > :not(.uk-nav-header)">
+                    <li><a v-on:click="getRecords">Record list</a></li>
+                    <li><a v-on:click="getPains">Pain list</a></li>
+                    <li><a v-on:click="getReports">Report list</a></li>
                 </ul>
-        
             </div>
-        </div>
+            <div  class="uk-width-expand@m uk-margin-left">
+                <div class="">
+                    <button v-on:click="newRecord" class="uk-button uk-button-primary uk-button-small" uk-tooltip="title: Click me, if you want to create a new record of your pains; pos: right">Record my Pain</button>
+                    <form class="uk-search uk-search-default uk-align-right uk-margin-left-small uk-margin-right">
+                        <span :uk-search-icon="'search'" class="uk-search-icon-flip"></span>
+                        <input class="uk-search-input uk-form-small" type="search" placeholder="Search">
+                    </form>
+                    <button class="uk-button uk-button-default uk-align-right uk-button-small" uk-tooltip="title: Click me, if you want to delete a pain in the table below; pos: left">Delete</button>
+                </div>
+                <!-- <div :uk-icon="'spinner'" class="uk-spinner uk-padding uk-margin"></div> -->
+                <ul id="component-nav" class="uk-switcher">
+                    <li><table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                            <thead>
+                                <tr>
+                                    <th>Record brief</th>
+                                    <th>Pain number</th>
+                                    <th>Create at</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="record in records">
+                                    <td v-text="record.record_brief"></td>
+                                    <td v-text="record.pain_number"></td>
+                                    <td v-text="record.create_at"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                    <li>
+                        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Character</th>
+                                        <th>Regions</th>
+                                        <th>Severity</th>
+                                        <th>Depth</th>
+                                        <th>Frequency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="pain in pains">
+                                        <td>#[[pain.Pain_ID | id_filter ]]</td>
+                                        <td v-text="pain.pain_character"></td>
+                                        <td v-text="pain.region_count"></td>
+                                        <td v-text="pain.pain_severity"></td>
+                                        <td v-text="pain.depth"></td>
+                                        <td v-text="pain.frequency"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </li>
+                    <li>
+                        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                            <thead>
+                                <tr>
+                                    <th>Report ID</th>
+                                    <th>Create at</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="report in reports">
+                                    <td v-text="report.Report_ID | id_filter"></td>
+                                    <td v-text="report.create_at"></td>
+                                    <td><a>Download</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </li>
+                </ul><span v-text="notif" v-cloak></span>
+            </div> 
+        </div>  
 </div>
 {% endblock %}

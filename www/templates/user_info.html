@@ -1,7 +1,42 @@
 {% extends '__base__.html' %}
 
+
+{% block beforehead %}
+<script>
+        $(function() {
+               var vm = new Vue({   
+                   delimiters: ["[[", "]]"],
+                   el: '#vm',
+                   data: {
+                       logout_conf:""
+                   },
+                   methods: {
+                        submit: function() {
+                                // alert(JSON.stringify(this.$data));
+                                $.post("/api/logout", JSON.stringify(this.$data)).done(function(data2){
+                                // alert(JSON.stringify(data2));
+                               
+                                window.location.href = '/ulist';
+                           });
+                          
+                       }
+                   }
+               });
+               // $('#vm').show();
+           });
+           
+   </script>
+{% endblock %}
+
+
 {% block content %}
-<section>
-        <a href="/logout" name='logout'><i class="uk-icon-sign-out"></i> logout</a>
+<section uk-grid class="uk-child-width-1-3@m">
+        <div></div>
+        <form id="vm" v-on:submit="submit" class="uk-margin uk-padding">
+                <div class="uk-text-center">
+                        <button type="submit" class="uk-button uk-button-primary">Log out</button>
+                </div>
+        </form>
+        <div></div>
 </section>
 {% endblock %}
