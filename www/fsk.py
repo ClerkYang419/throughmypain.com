@@ -228,7 +228,11 @@ class Add_new_pain(Resource):
         for i in json_data['depth']:
             depth = str(i)+" "+depth
 
-        new_pain = pains(str(pid),json_data['region_count'],json_data['description'],json_data['character'],json_data['severity'],depth,json_data['frequency'],str(uid))
+        regions=''
+        for i in json_data['regions_index']:
+            regions = str(i)+" "+regions
+
+        new_pain = pains(str(pid),json_data['region_count'], regions, json_data['description'],json_data['character'],json_data['severity'],depth,json_data['frequency'],str(uid))
         db.session.add(new_pain)
         db.session.commit()
 

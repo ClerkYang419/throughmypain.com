@@ -70,6 +70,14 @@
                            });
                        },
 
+                       viewPain:function(pain_id){
+                        //    alert('1231');
+                       },
+
+                       viewRecord:function(record_id){
+
+                       },
+
                        newRecord:function () {
                         $.post("/api/add_new_record", JSON.stringify(this.$data.records)).done(function(data2){
                             //    alert(JSON.stringify(data2));
@@ -113,49 +121,54 @@
                 </div>
                 <!-- <div :uk-icon="'spinner'" class="uk-spinner uk-padding uk-margin"></div> -->
                 <ul id="component-nav" class="uk-switcher">
-                    <li><table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                    <li>
+                        <table class="uk-table uk-table-hover uk-table-responsive uk-table-small uk-table-divider">
                             <thead>
                                 <tr>
                                     <th>Record brief</th>
                                     <th>Pain number</th>
                                     <th>Create at</th>
+                                    <th>ID</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="record in records">
+                                <tr @click="viewRecord(record.Report_ID)" style="cursor: pointer;"  v-for="record in records">
                                     <td v-text="record.record_brief"></td>
                                     <td v-text="record.pain_number"></td>
                                     <td v-text="record.create_at"></td>
+                                    <td>#[[record.Record_ID | id_filter]]</td>
                                 </tr>
                             </tbody>
                         </table>
                     </li>
                     <li>
-                        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                        <table class="uk-table uk-table-small uk-table-responsive uk-table-hover uk-table-divider">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Character</th>
                                         <th>Regions</th>
                                         <th>Severity</th>
                                         <th>Depth</th>
                                         <th>Frequency</th>
+                                        <th>Create at</th>
+                                        <th>ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="pain in pains">
-                                        <td>#[[pain.Pain_ID | id_filter ]]</td>
+                                    <tr @click="viewPain(pain.Pain_ID)" style="cursor: pointer;" v-for="pain in pains">
                                         <td v-text="pain.pain_character"></td>
-                                        <td v-text="pain.region_count"></td>
+                                        <td v-text="pain.regions"></td>
                                         <td v-text="pain.pain_severity"></td>
                                         <td v-text="pain.depth"></td>
                                         <td v-text="pain.frequency"></td>
+                                        <td v-text="pain.create_at"></td>
+                                        <td>#[[pain.Pain_ID | id_filter ]]</td>
                                     </tr>
                                 </tbody>
                             </table>
                     </li>
                     <li>
-                        <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                        <table class="uk-table uk-table-hover uk-table-responsive uk-table-small uk-table-divider">
                             <thead>
                                 <tr>
                                     <th>Report ID</th>

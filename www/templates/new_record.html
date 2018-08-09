@@ -20,19 +20,37 @@
                    delimiters: ["[[", "]]"],
                    el: '#vm',
                    data: {
+                        date: '',
                         brief: '',
                         exist_pains: [],
                         selected_ex_pain: {},
                         pain_count: 0,
                         pains_list:[],
                         notif:null,
-                        notif_list:null,
+                        notif_list:"You have no pain in the list currently",
                         record_id: rid.slice(0,8),
                         flag_add_ex: false
                    },
 
-                   created: function(){
-                            if(pains_list == []){
+                   created:function(){
+                        var date = new Date();
+                        var month = new Array();
+                        month[0] = "January";
+                        month[1] = "February";
+                        month[2] = "March";
+                        month[3] = "April";
+                        month[4] = "May";
+                        month[5] = "June";
+                        month[6] = "July";
+                        month[7] = "August";
+                        month[8] = "September";
+                        month[9] = "October";
+                        month[10] = "November";
+                        month[11] = "December";
+                        this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();
+                   },
+                   updated: function(){
+                            if(this.$data.pains_list.length === 0){
                                 this.$data.notif_list = "You have no pain in the list currently";
                             }
                             else{
@@ -58,6 +76,7 @@
                                 vm.$data.exist_pains = JSON.parse(get_pains);
                                 // alert(JSON.stringify(vm.$data.exist_pains))
                                 vm.$data.flag_add_ex = true;
+                                $("#add_ep").attr("disabled",true);
                             }
                            });
                        },
@@ -174,7 +193,7 @@
 {% block content %}
 
 <div class="uk-padding uk-padding-remove-top">
-    <form id="vm" v-on:submit.prevent="submit" class="uk-width-3-4 uk-align-center">
+    <form id="vm" v-on:submit.prevent="submit" class="uk-width-5-6 uk-align-center">
         <div>
             <div class="uk-inline-block">
                 <span>Record ID:</span>
@@ -182,7 +201,7 @@
             </div>
             <div class="uk-inline-block uk-float-right">
                 <span>Date:</span>
-                <span>Mon 18 Jun 2018</span>
+                <span>[[date]]</span>
             </div>   
         </div>
 
@@ -199,21 +218,22 @@
     
             <div class="uk-margin">
                 <button v-on:click="add_new_pain" type="button" class="uk-button-small uk-button-primary" uk-tooltip="title: Click me, if you have a new pain need to be recorded; pos: left;">Add new pain</button>
-                <button @click.once="find_ex_pain" type="button" class="uk-button-small uk-button-default" uk-tooltip="title: Click me, if you want to update an pain recorded in last few days; pos: right">Add existing pain</button>
+                <button @click.once="find_ex_pain" id="add_ep" type="button" class="uk-button-small uk-button-default" uk-tooltip="title: Click me, if you want to update an pain recorded in last few days; pos: right">Add existing pain</button>
             </div>
 
             <div class="uk-margin" v-if="flag_add_ex">
                 <select v-model="selected_ex_pain" class="uk-select uk-form-small uk-width-5-6">
-                        <option v-bind:value="pain" v-for="pain of exist_pains">[[pain.Pain_ID | id_filter]], [[pain.description]], [[pain.depth]], [[ pain.frequency]]</option>
+                        <option>-- Select pains recorded before --</option>
+                        <option v-bind:value="pain" v-for="pain of exist_pains">[[pain.create_at]], [[pain.description]], [[pain.depth]], [[ pain.frequency]], #[[pain.Pain_ID | id_filter]]</option>
                 </select>
                 <button type="button" v-on:click="add_ex_pain" class="uk-button-small uk-button-primary uk-float-right" uk-tooltip="title: Add to the table below; pos: right">Add</button>
             </div>
 
-            <div>
-                <table class="uk-table uk-table-striped">
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-small uk-table-middle uk-table-justify uk-table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Create at</th>
                             <th>Character</th>
                             <th>Region count</th>
                             <th>Severity</th>
@@ -224,7 +244,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="pain in pains_list">
-                            <td>#[[pain.Pain_ID | id_filter]]</td>
+                            <td v-text="pain.create_at"></td>
                             <td v-text="pain.pain_character"></td>
                             <td v-text="pain.region_count"></td>
                             <td v-text="pain.pain_severity"></td>
@@ -241,7 +261,7 @@
                 <canvas></canvas>
             </div> -->
 
-            <div class="uk-margin-large">
+            <div class="uk-margin">
                 <button type="submit" class="uk-button-primary uk-button-small uk-float-right">Done</button>
                 <button type="button" @click="cancel" class="uk-button-default uk-button-small uk-float-right uk-margin-right">Cancel</button>
             </div>

@@ -42,7 +42,7 @@ class users(db.Model):
     create_at = db.Column(db.String(50))
     admin = db.Column(db.Boolean)
 
-    def __init__(self, User_ID, user_name, user_passwd, age, gender, records_number = 0, last_record_date = 'No record', create_at = time.strftime('%Y-%m-%d',time.localtime(time.time())), admin = False):
+    def __init__(self, User_ID, user_name, user_passwd, age, gender, records_number = 0, last_record_date = 'No record', create_at = time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time())), admin = False):
         self.User_ID = User_ID
         self.user_name = user_name
         self.user_passwd = user_passwd
@@ -68,11 +68,11 @@ class records(db.Model):
 
     Record_ID = db.Column(db.String(50), primary_key=True)
     pain_number = db.Column(db.Integer)
-    record_brief = db.Column(db.String(50))
+    record_brief = db.Column(db.String(100))
     create_at = db.Column(db.String(50))
     User_ID = db.Column(db.String(50), db.ForeignKey('Users.User_ID'))
 
-    def __init__(self, Record_ID, pain_number, record_brief, User_ID_record, create_at=time.strftime('%Y-%m-%d',time.localtime(time.time()))):
+    def __init__(self, Record_ID, pain_number, record_brief, User_ID_record, create_at=time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time()))):
         self.Record_ID = Record_ID
         self.pain_number = pain_number
         self.record_brief = record_brief
@@ -114,22 +114,26 @@ class pains(db.Model):
 
     Pain_ID = db.Column(db.String(50),primary_key=True)
     region_count = db.Column(db.Integer)
+    regions = db.Column(db.String(100))
     description = db.Column(db.String(500))
     pain_character = db.Column(db.String(50))
     pain_severity = db.Column(db.Integer)
     depth = db.Column(db.String(50))
     frequency = db.Column(db.String(50))
+    create_at = db.Column(db.String(50))
     # Record_ID = db.Column(db.String(50), db.ForeignKey('Records.Record_ID'))
     Users_User_ID = db.Column(db.String(50), db.ForeignKey('Users.User_ID'))
 
-    def __init__(self, Pain_ID, region_count, description, pain_character, pain_severity, depth, frequency, User_ID_pain):
+    def __init__(self, Pain_ID, region_count, regions, description, pain_character, pain_severity, depth, frequency, User_ID_pain, create_at=time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time()))):
         self.Pain_ID = Pain_ID
         self.region_count = region_count
+        self.regions = regions
         self.description = description
         self.pain_character = pain_character
         self.pain_severity = pain_severity
         self.depth = depth
         self.frequency = frequency
+        self.create_at = create_at
         # self.Record_ID = Record_ID_pain
         self.Users_User_ID = User_ID_pain
 
