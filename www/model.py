@@ -37,21 +37,28 @@ class users(db.Model):
     user_passwd = db.Column(db.String(50))
     age = db.Column(db.Integer)
     gender = db.Column(db.String(50))
-    records_number = db.Column(db.Integer)
+    pains_number = db.Column(db.Integer)
     last_record_date = db.Column(db.String(50))
     create_at = db.Column(db.String(50))
     admin = db.Column(db.Boolean)
 
-    def __init__(self, User_ID, user_name, user_passwd, age, gender, records_number = 0, last_record_date = 'No record', create_at = time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time())), admin = False):
+    def __init__(self, User_ID, user_name, user_passwd, age, gender, pains_number = 0, last_record_date = 'No record', create_at = time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time())), admin = False):
         self.User_ID = User_ID
         self.user_name = user_name
         self.user_passwd = user_passwd
         self.age = age
         self.gender = gender
-        self.records_number = records_number
+        self.pains_number = pains_number
         self.last_record_date = last_record_date
         self.create_at = create_at
         self.admin = admin
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        return d
+    def serialize_list(self):
+        d = Serializer.serialize_list(self)
+        return d
     
     def __repr__(self):
         return self.user_name
@@ -70,12 +77,14 @@ class records(db.Model):
     pain_number = db.Column(db.Integer)
     record_brief = db.Column(db.String(100))
     create_at = db.Column(db.String(50))
+    pains_list = db.Column(db.String(20000))
     User_ID = db.Column(db.String(50), db.ForeignKey('Users.User_ID'))
 
-    def __init__(self, Record_ID, pain_number, record_brief, User_ID_record, create_at=time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time()))):
+    def __init__(self, Record_ID, pain_number, record_brief, pains_list, User_ID_record, create_at=time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time()))):
         self.Record_ID = Record_ID
         self.pain_number = pain_number
         self.record_brief = record_brief
+        self.pains_list = pains_list
         self.create_at = create_at
         self.User_ID = User_ID_record
     
@@ -86,28 +95,32 @@ class records(db.Model):
     def serialize_list(self):
         d = Serializer.serialize_list(self)
         return d
-    # @property
-    # def serialize(self):
-    #    """Return object data in easily serializeable format"""
-    #    return {
-    #        'Record_ID'  : self.Record_ID,
-    #        'pain_number': self.pain_number,
-    #        'record_brief': self.record_brief,
-    #        'create_at'  : self.create_at
 
-    #        # This is an example how to deal with Many2Many relations
-    #     #    'many2many'  : self.serialize_many2many
-    #    }
-
-    # def serialize_many2many(self):
-    #    """
-    #    Return object's relations in easily serializeable format.
-    #    NB! Calls many2many's serialize property.
-    #    """
-    #    return [ item.serialize for item in self.many2many]
-    
     def __repr__(self):
         return '<Record %r>' % self.Record_ID
+
+class record_cache(db.Model):
+    __tablename__ = 'Record_cache'
+
+    Record_ID = db.Column(db.String(50), primary_key=True)
+    record_brief = db.Column(db.String(100))
+    pain_list = db.Column(db.String(21845))
+
+    def __init__(self, Record_ID, record_brief, pain_list):
+        self.Record_ID = Record_ID
+        self.record_brief = record_brief
+        self.pain_list = pain_list
+    
+    def serialize(self):
+        d = Serializer.serialize(self)
+        # del d['password']
+        return d
+    def serialize_list(self):
+        d = Serializer.serialize_list(self)
+        return d
+
+    def __repr__(self):
+        return '<Record_cache %r>' % self.Record_ID
 
 class pains(db.Model):
     __tablename__ = 'Pains'
@@ -208,22 +221,6 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     return app
-
-# def tojson(self):
-#     if isinstance(self, users):
-#         return {
-#             'id': self.User_ID,
-#             'name': self.user_name,
-#             'age': self.age,
-#             'gender': self.gender
-#         }
-#     else:
-#         return {
-#             'id': self.User_ID,
-#             'name': self.user_name,
-#         }
-
-
 
 # engine = create_engine('mysql+mysqlconnector://ubuntu:ubuntu@localhost:3306/throughmypain')
 # DBSession = sessionmaker(bind=engine)

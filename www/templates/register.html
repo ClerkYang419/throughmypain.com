@@ -20,7 +20,7 @@
                 },
                 methods: {
                     submit: function() {
-                        alert(JSON.stringify(this.$data));
+                        // alert(JSON.stringify(this.$data));
                         $.post("/api/signup", JSON.stringify(this.$data)).done(function(data2){
                             // alert(JSON.stringify(data2));
                             //   alert("data2:"+JSON.stringify(data2));

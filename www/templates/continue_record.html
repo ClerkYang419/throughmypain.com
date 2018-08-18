@@ -14,20 +14,20 @@
   return r;
 }
 
-    function inivm(rid, new_pain=false) {
+    function inivm(data,new_pain=false) {
         var vm = new Vue({
                    delimiters: ["[[", "]]"],
                    el: '#vm',
                    data: {
                         date: "",
-                        brief: "",
+                        brief: data.record_brief,
                         exist_pains: [],
                         selected_ex_pain: "",
                         pain_count: 0,
                         pains_list:[],
                         notif: null,
                         notif_list: "You have no pain in the list currently",
-                        record_id: rid.slice(0,8),
+                        record_id: data.Record_ID.slice(0,8),
                         flag_add_ex: false
                    },
 
@@ -47,14 +47,19 @@
                         month[10] = "November";
                         month[11] = "December";
                         this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();
+
                         
                         // if(old_data != false){
                         //     this.$data.brief = JSON.parse(JSON.parse(old_data).record_brief);
                         //     this.$data.pains_list =  JSON.parse(JSON.parse(old_data).pain_list);
                         // }
+                        
 
-                        
-                        
+                        this.$data.pains_list = JSON.parse(data.pains_list);
+                        $.get("/api/get_new_pain",JSON.stringify(this.$data)).done(function(data){
+                            vm.$data.pains_list.push(JSON.parse(data));
+                            // vm.$data.pain_count++;
+                        });
                         // if(new_pain){
                         //     this.$data.pains_list.push(new_pain);
                         // }  
@@ -76,6 +81,7 @@
                                 this.$data.notif_list = null;
                                 // this.$data.pains_list = Set(this.$data.pains_list);
                             }       
+                            this.$data.pain_count = this.$data.pains_list.length;
                    },
 
                    filters:{
@@ -119,22 +125,15 @@
                             this.$data.pains_list = unique5(this.$data.pains_list);
                             if(this.$data.pains_list.length == length){
                                 this.$data.exist_pains.splice(this.$data.exist_pains.indexOf(this.selected_ex_pain),1);
-                                // this.$data.pains_list = Set(this.$data.pains_list);
                                 this.$data.pain_count++;
                             }
-                            
-
-                            // alert(JSON.stringify(vm.$data.pains_list));
                        },
 
                        submit:function () {
-                        // var data = {
-                        //     "pain_count":this.$data.pain_count,
-                        //     "brief":this.$data.brief
-                        // };
-                        // alert(data);
-                        this.$data.pains_list = JSON.stringify(this.$data.pains_list);
-                        $.post("/api/add_new_record",JSON.stringify(this.$data)).done(function(data){
+                        // this.$data.pains_list = JSON.stringify(this.$data.pains_list);
+                        var data = this.$data;
+                        data.pains_list = JSON.stringify(data.pains_list);
+                        $.post("/api/add_con_record",JSON.stringify(data)).done(function(data){
                             window.location.href = "/ulist";
                         });
                        },
@@ -143,13 +142,15 @@
                         if (confirm("\nYou will lose information of this page.\n\nDo you want to continue?\n")){
                             window.location.href = "/ulist";
                         }else{
-                            return 
+                            return
                         }
                        },
 
-                       add_new_pain: function () {   
-                            this.$data.pains_list = JSON.stringify(this.$data.pains_list);
-                            $.post("/api/add_con_record",JSON.stringify(this.$data)).done(function(data){
+                       add_new_pain: function () {     
+                            // this.$data.pains_list = JSON.stringify(this.$data.pains_list);
+                            var data = this.$data;
+                            data.pains_list = JSON.stringify(data.pains_list);
+                            $.post("/api/add_con_record",JSON.stringify(data)).done(function(data){
                                 window.location.href = "/new_pain";
                             });
                        }
@@ -159,35 +160,13 @@
     }
 
         $(function() {
-               $.get("/api/get_rid", JSON.stringify(this.$data)).done(function(rid){
-                            // alert(JSON.stringify(data));
-                            // var getData = JSON.parse(data); 
-                            var rid = JSON.parse(rid);
-                            // var old_data = false;
-                            // $.get("/api/new_record_cache", JSON.stringify(this.$data)).done(function(data2){
-                            //     if(data2 != 200){
-                            //         // alert(JSON.parse(data2).record_brief);
-                            //         // alert(JSON.parse(data2).pain_list);
-                            //         // alert(vm.$data.pains_list);
-                            //         old_data = data2;
-                            //     }
-                                // $.get("/api/get_new_pain", JSON.stringify(this.$data)).done(function(data3){
-                                //     // alert(data2);
-                                //     if(data3 != 200){
-                                //         var new_pain =  JSON.parse(data3);
-                                //         var vm = inivm(rid, old_data, new_pain);
-                                //     }else{
-                                //         var vm = inivm(rid, old_data);
-                                //     }
-                                // });
-
-                            // });
-                            // alert(rid);
                             
-                            inivm(rid);
-
-                            
-                    });
+                                
+                            $.get('/api/get_record2',JSON.stringify(this.$data)).done(function(data){
+                                // alert(data);
+                                var data = JSON.parse(data);
+                                inivm(data);
+                            });
                 // var rid = 3;
                 
                // $('#vm').show();

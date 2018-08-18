@@ -8,7 +8,27 @@
                    delimiters: ["[[", "]]"],
                    el: '#vm',
                    data: {
-                       logout_conf:""
+                        logout_conf:"",
+                        username:"",
+                        age:null,
+                        gender:"",
+                        pains_number:null,
+                        last_record_date:""
+                   },
+                   created:function(){
+                           $.get("/api/get_user",JSON.stringify(this.$data)).done(function(data){
+                                   var data = JSON.parse(data);
+                                   vm.username = data.user_name;
+                                   vm.age = data.age;
+                                   vm.gender = data.gender;
+                                //    vm.pains_number = data.pains_number;
+                                   vm.last_record_date = data.last_record_date;
+                           });
+
+                           $.get("/api/get_pains_count",JSON.stringify(this.$data)).done(function(data){
+                                var data = JSON.parse(data);
+                                vm.pains_number = data;
+                           });
                    },
                    methods: {
                         submit: function() {
@@ -32,8 +52,14 @@
 {% block content %}
 <section uk-grid class="uk-child-width-1-3@m">
         <div></div>
-        <form id="vm" v-on:submit="submit" class="uk-margin uk-padding">
-                <div class="uk-text-center">
+        <form id="vm" v-on:submit="submit" class="uk-box-shadow-bottom uk-box-shadow-large uk-box-shadow-hover-medium uk-margin uk-padding uk-card uk-card-body">
+                <div class="uk-text-center uk-margin"><img class="uk-border-circle" src="../static/image/aaa.png" width="100px" height="100px" alt="" uk-img></div>
+                <div class="uk-text-center uk-margin uk-card-title"><span v-text="username"></span></div>
+                <div class="uk-text-center uk-margin"><span>Age:[[age]]</span></div>
+                <div class="uk-text-center"><span>Gender:[[gender]]</span></div>
+                <div class="uk-text-center uk-margin"><span>Pain count:[[pains_number]]</span></div>
+
+                <div class="uk-text-center uk-margin">
                         <button type="submit" class="uk-button uk-button-primary">Log out</button>
                 </div>
         </form>

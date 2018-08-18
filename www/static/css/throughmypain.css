@@ -86,8 +86,8 @@ footer{
 .sidenav a {
     padding: 8px 8px 50px 90px;
     text-decoration: none;
-    font-size: 20px;
-    color: #222;
+    font-size: 18px;
+    color: rgb(59, 59, 59);
     display: block;
     transition: 0.3s;
 }
@@ -147,6 +147,15 @@ footer{
     border-radius: 6px;
     overflow: hidden;
   }
+
+  /* .barchart div{
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
+  } */
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}

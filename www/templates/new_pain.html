@@ -95,17 +95,17 @@
                                 this.$data.regions_index.push(i);
                             }
                         }
-                        alert(JSON.stringify(this.$data));
+                        // alert(JSON.stringify(this.$data));
                         // for(var i in this.$data.depth)
                         // this.$data.depth = this.$data.depth[0]
                         $.post("/api/add_new_pain",JSON.stringify(this.$data)).done(function(data){
-                            window.location.href = "/new_record";
+                            window.location.href = "/continue_record";
                         });
                        },
 
                        cancel: function () {
                         if (confirm("\nYou will lose information of this page.\n\nDo you want to cancel?\n")){
-                            window.location.href = "/new_record";
+                            window.location.href = "/continue_record";
                         }else{
                             return
                         }
@@ -189,20 +189,20 @@
         <div class="uk-padding-remove-top uk-width-1-2 uk-display-inline-block">
             <div class="uk-margin">
                 <span>Character:</span>
-                <div class="radio-group uk-margin-small-top" >
-                        <input type="radio" id="option-one" value="numbness" v-model="character">
+                <div class="radio-group uk-margin-small-top">
+                        <input type="radio" id="option-one" value="numbness" v-model="character" name="Character" required>
                         <label for="option-one">numbness</label>
                         
-                        <input type="radio" id="option-two" value="stabbing" v-model="character">
+                        <input type="radio" id="option-two" value="stabbing" v-model="character" name="Character" >
                         <label for="option-two">stabbing</label>
                         
-                        <input type="radio" id="option-three" value="pins&needles" v-model="character">
+                        <input type="radio" id="option-three" value="pins&needles" v-model="character" name="Character" >
                         <label for="option-three">pins&needles</label>
 
-                        <input type="radio" id="option-four" value="burning" v-model="character">
+                        <input type="radio" id="option-four" value="burning" v-model="character" name="Character" >
                         <label for="option-four">burning</label>
 
-                        <input type="radio" id="option-five" value="stiffness" v-model="character">
+                        <input type="radio" id="option-five" value="stiffness" v-model="character" name="Character" >
                         <label for="option-five">stiffness</label>
                 </div>
             </div>
@@ -212,16 +212,16 @@
             </div>
             <div class="uk-margin-medium">
                 <span>Severity:</span>
-                <div class="uk-display-inline-block uk-float-right uk-width-3-4"><input v-model="severity" class="uk-form-small uk-range" value="0" type="range" min="0" max="10"> 
+                <div class="uk-display-inline-block uk-float-right uk-width-3-4"><input v-model="severity" class="uk-form-small uk-range" value="0" type="range" min="0" max="10" required> 
                 </div><span class="uk-margin-left" v-text="severity"> [[severity]]</span>
             </div>
             <div class="uk-margin">
                 <span>Depth:</span>
                 <div class="uk-display-inline-block uk-float-right uk-width-5-6 uk-grid-small uk-child-width-auto">
-                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="skin" class="uk-checkbox"><span>skin</span></div>
-                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="muscle&joint" class="uk-checkbox"><span>muscle&joint</span></div>
-                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="bone" class="uk-checkbox"><span>bone</span></div>
-                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="neural" class="uk-checkbox"><span>neural</span></div>
+                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="skin" class="uk-checkbox" name="Depth"><span>skin</span></div>
+                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="muscle&joint" class="uk-checkbox" name="Depth"><span>muscle&joint</span></div>
+                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="bone" class="uk-checkbox" name="Depth"><span>bone</span></div>
+                    <div class="uk-display-inline-block"><input v-model="depth" type="checkbox" value="neural" class="uk-checkbox" name="Depth"><span>neural</span></div>
                 </div>
             </div>
             <div class="uk-margin-top uk-display-inline-block">
@@ -229,13 +229,13 @@
                 <div class="uk-float-right  uk-margin-left">
 
                         <div class="radio-group" >
-                                <input type="radio" id="option-brief" value="brief" v-model="frequency">
+                                <input type="radio" id="option-brief" value="brief" v-model="frequency" name="Frequency" required>
                                 <label style="padding: 3px 25px" for="option-brief">brief</label>
                                 
-                                <input type="radio" id="option-periodic" value="periodic" v-model="frequency">
+                                <input type="radio" id="option-periodic" value="periodic" v-model="frequency" name="Frequency" >
                                 <label style="padding: 3px 16px" for="option-periodic">periodic</label>
                                 
-                                <input type="radio" id="option-constant" value="constant" v-model="frequency">
+                                <input type="radio" id="option-constant" value="constant" v-model="frequency" name="Frequency" >
                                 <label style="padding: 3px 12px" for="option-constant">constant</label>
                         </div>
                         <div class="uk-display-inline-block uk-float-right"><span :uk-icon="'question'" class="uk-vertical-align-middle uk-margin-small-left" uk-tooltip="title: brief: A short period of pain in the day. <br><br> periodic: A periodic pain showing intermittent fluctuations. <br><br> constant: A constant pain where you can keep feeling it.; pos: top"></span></div>
@@ -251,7 +251,7 @@
             <div class="uk-margin">
                 <span>Description:</span>
                 <div class="uk-display-inline-block">
-                    <textarea v-model="description" class="uk-textarea" rows="7" cols="46" placeholder="Write down some description about your pain here."></textarea>
+                    <textarea v-model="description" class="uk-textarea" rows="7" cols="46" placeholder="Write down some description about your pain here." required></textarea>
                 </div>
             </div>
             <div class="uk-margin">
@@ -262,8 +262,8 @@
         <div class="uk-width-1-2 uk-display-inline-block uk-padding uk-padding-remove-top uk-float-right">
             <!-- <canvas></canvas> -->
             <div uk-switcher="animation: uk-animation-fade" class="uk-text-center">
-                <button class="uk-button uk-button-small uk-button-default" type="button">Front</button>
-                <button class="uk-button uk-button-small uk-button-default" type="button">Back</button>
+                <button class="uk-button uk-button-small uk-button-default" type="button" style="padding: 0px 25px">Front</button>
+                <button class="uk-button uk-button-small uk-button-default" type="button" style="padding: 0px 18px">Reverse</button>
             </div>
             <ul class="uk-switcher uk-margin-large-left uk-margin uk-text-center">
                 <li>

@@ -11,6 +11,7 @@
     <!--link rel="stylesheet" href="../static/css/uikit-rtl.min.css" /-->
     <link rel="stylesheet" href="../static/css/throughmypain.css"/>
     <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" ></script> -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 
@@ -18,6 +19,8 @@
     <script src="../static/js/uikit.min.js" defer></script>
     <script src="../static/js/uikit-icons.min.js" defer></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="../static/css/throughmypain.css"/>
     <script src="../static/js/throughmypain.js" defer></script>
 </head>
 <body>
@@ -30,12 +33,12 @@
                 <ul class="uk-navbar-nav">
                     <li>
                         <a uk-navbar-toggle-icon onclick="openNav()"></a>
-                        <div id="mySidenav" class="sidenav"> 
+                        <div id="mySidenav" class="sidenav uk-text-uppercase uk-text-bold "> 
                             <a href="javascript:void(0)" class="closebtn uk-padding-remove" onclick="closeNav()">&times;</a>
                             <a class="nav-body uk-display-block" href="/ulist">Recording</a>
                             <a class="nav-analysis" href="/analysis">Analysis</a>
                             <a class="nav-user" href="/user">Account</a>
-                            <a class="nav-info" href="/info">Help</a>
+                            <a class="nav-info" href="/about">About</a>
                         </div>
                     </li>
                 </ul>
@@ -48,7 +51,11 @@
         </div>
     </header>
 
-    <div  style="min-height: 400px" class="uk-section uk-section-default uk-dark uk-container uk-padding-remove-top uk-margin">
+    <div  style="min-height: 400px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;" class="uk-section uk-section-default uk-dark uk-container uk-padding-remove-top uk-margin">
         <!-- containt -->
         {% with messages = get_flashed_messages() %}
         {% if messages %}

@@ -54,6 +54,16 @@ CREATE TABLE IF NOT EXISTS `throughmypain`.`Records` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `throughmypain`.`Record_cache`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Record_cache` (
+  `Record_ID` VARCHAR(50) NOT NULL,
+  `record_brief` VARCHAR(50) NOT NULL,
+  `pain_list` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`Record_ID`))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `throughmypain`.`Pains`

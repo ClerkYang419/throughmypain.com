@@ -1,0 +1,109 @@
+{% extends '__base__.html' %}
+
+
+{% block beforehead %}
+<script>
+
+    function inivm(data) {
+        
+        var vm = new Vue({   
+                   delimiters: ["[[", "]]"],
+                   el: '#vm',
+                   data: {
+                        create_at:  data.create_at,
+                        brief:      data.record_brief,
+                        pain_count: data.pain_number,
+                        pains_list: JSON.parse(data.pains_list),
+                        record_id:  data.Record_ID.slice(0,8),
+                   },
+
+                   filters:{
+                    id_filter: function(value){
+                        value = value.slice(0,8);
+                        return value;
+                    }
+                   },
+                   methods: {
+
+                    backlist:function(){
+                        window.location.href= "/ulist";
+                    }
+                   }
+               });
+            return vm;
+    }
+
+        $(function() {
+               $.get("/api/get_record", JSON.stringify(this.$data)).done(function(data){
+                   var data = JSON.parse(data);
+                //    alert( data.pains_list);
+                   inivm(data);
+                  
+                    });
+           });
+           
+   </script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="uk-padding uk-padding-remove-top">
+    <form id="vm" v-on:submit.prevent="submit" class="uk-width-5-6 uk-align-center">
+        <div>
+            <div class="uk-margin">
+                    <button type="button" @click="backlist" class="uk-button uk-button-secondary uk-button-small">Back</button>    
+            </div>
+            <div class="uk-inline-block">
+                <span>Record ID:</span>
+                <span v-cloak>#[[record_id]]</span>
+            </div>
+            <div class="uk-inline-block uk-float-right">
+                <span>Create at:</span>
+                <span v-cloak>[[create_at]]</span>
+            </div>   
+        </div>
+
+        <hr>
+        <div class="uk-padding uk-padding-remove-top">
+            <div class="uk-margin">
+                <span>Brief statement:</span>
+                <span v-cloak>[[brief]]</span>
+            </div>
+            <div class="uk-margin">
+                <span>Pain count:</span>
+                <span v-cloak>[[pain_count]]</span>
+            </div>
+
+            <div class="uk-overflow-auto">
+                <table class="uk-table uk-table-small uk-table-middle uk-table-justify uk-table-striped">
+                    <thead>
+                        <tr>
+                            <th>Create at</th>
+                            <th>Character</th>
+                            <th>Region count</th>
+                            <th>Severity</th>
+                            <th>Depth</th>
+                            <th>Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="pain in pains_list">
+                            <td v-text="pain.create_at"></td>
+                            <td v-text="pain.pain_character"></td>
+                            <td v-text="pain.region_count"></td>
+                            <td v-text="pain.pain_severity"></td>
+                            <td v-text="pain.depth"></td>
+                            <td v-text="pain.frequency"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- <div>
+                <canvas></canvas>
+            </div> -->
+        </div>
+    </form>
+</div>
+{% endblock %}
