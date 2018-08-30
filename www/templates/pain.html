@@ -6,26 +6,18 @@
         function parseRegion(regions, count){
             var rgs=[];
             var range=0;
-            // regions.shift();
-            // alert(typeof(regions));
-            // regions = JSON.stringify(regions);
-            // alert("1312");
             for(var a = 0; a < count; a++){
                 var region="";
                 range = 0;
                 for(var i in regions){
                     range++;
                     if(regions[i] === " "){
-                        // regions = regions.substr(1);
                         break;
                     }else{
-                        // alert(regions[i]);
                         region += regions[i];
-                        // regions = regions.substr(1);
                     }
                 }
                 regions = regions.substr(range);
-                // alert(region);
                 rgs.push(region);
             }  
             return rgs;
@@ -94,25 +86,18 @@
                                 Region_45:false
                             }
                        },
-    
                        updated: function(){                   
-                                    this.notif = null;
+                                this.notif = null;
                        },
-    
                        created:function(){
-                           for(var i of this.$data.regions_index_group){
-                            //    alert(i);
-                            this.$data.regions[i] = true;
-                            $("#"+i).css({fill:"#f0506e"});
-
-                           }
-
-                        //    alert(JSON.stringify(this.$data.regions));
-                            
+                                for(var i of this.$data.regions_index_group){
+                                    this.$data.regions[i] = true;
+                                    $("#"+i).css({fill:"#f0506e"});
+                                }
                        },
                        methods: {
                         backlist:function(){
-                            window.location.href="/ulist";
+                                window.location.href="/ulist";
                         }
                        }
                    });
@@ -120,17 +105,9 @@
     
             $(function() {
                 $.get("/api/get_pain", JSON.stringify(this.$data)).done(function(data){
-                // alert(JSON.stringify(data));
-                // var pid = JSON.parse(data);
-                // data.regions = parseRegion(data.regions, data.region_count);
-                // alert(data.regions);
                 var data = JSON.parse(data);
-                // alert(typeof(data.region_count));
-                // data.regions= parseRegion(data.regions, data.region_count);
                 inivm(data);
-                });           
-                    // var rid = 3;
-                    
+                });
                });
                
     </script>
@@ -148,10 +125,6 @@
         #body-front > path{
             fill:antiquewhite;
         }
-        /* #Layer_2 > path:hover{
-            fill:#f0506e;
-            fill-opacity:0.8;
-        } */
     </style>
 {% endblock %}
 
@@ -162,7 +135,6 @@
                 <div class="uk-margin">
                     <button type="button" @click="backlist" class="uk-button uk-button-secondary uk-button-small">Back</button>    
                 </div>
-
                 <div class="uk-inline-block">
                     <span>Pain ID:</span>
                     <span v-cloak>#[[pain_id]]</span>
@@ -180,39 +152,32 @@
                     <span>Character:</span>
                     <span v-cloak>[[character]]</span>
                 </div>
-
                 <div class="uk-margin">
                     <span>Region count:</span>
                     <span v-cloak>[[region_count]] regions selected</span>
                 </div>
-
                 <div class="uk-margin">
                         <span>Regions index:</span>
                         <span v-cloak>[[regions_index]]</span>
                 </div>
-
                 <div class="uk-margin">
                     <span>Severity:</span>
                     <span class="uk-margin-left" v-cloak>[[severity]]</span>
                 </div>
-
                 <div class="uk-margin-small">
                     <span>Depth:</span>
                     <span v-cloak>[[depth]]</span>
                 </div>
-
                 <div class="uk-margin-small uk-display-inline-block">
                     <span>Frequency:</span>
                     <span v-cloak>[[frequency]]</span>   
                 </div>
-
                 <div class="uk-margin-small">
                     <span>Description:</span>
                     <span v-cloak>[[description]]</span>
                 </div>
             </div>
             <div class="uk-width-1-2 uk-display-inline-block uk-padding uk-padding-remove-top uk-float-right">
-                <!-- <canvas></canvas> -->
                 <div uk-switcher="animation: uk-animation-fade" class="uk-text-center">
                     <button class="uk-button uk-button-small uk-button-default" type="button" style="padding: 0px 25px">Front</button>
                     <button class="uk-button uk-button-small uk-button-default" type="button" style="padding: 0px 18px">Reverse</button>
@@ -234,7 +199,6 @@
                             <path id="left-eyebrow" d="M636.6,90.7h9.8C644.4,89.1,638,89.3,636.6,90.7Z" transform="translate(-522.6 -61.9)"/>
                             </g>
                             </g>
-                            
                             
                             <g id="Layer_2" data-name="Layer 2" >
                             

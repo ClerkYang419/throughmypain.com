@@ -1,3 +1,6 @@
+<!--barchart single-file-component-->
+<!--temporarily not in use-->
+
 <template id="tem-barChart">
         <section class="uk-section uk-section-muted uk-margin uk-box-shadow-small">
                 <div class="chart uk-width-1-2">
@@ -8,7 +11,6 @@
                 
                     <label>Object:</label>
                     <div class="radio-group uk-margin-remove-left uk-float-right uk-margin-large-right" >
-                        <!-- <div class="uk-form-label">Radio</div> -->
                         <input id="All" v-model="object" value="All pain" class="uk-radio" type="radio" name="All">
                         <label for="All" style="padding: 3px 30px">All pain</label>
                         <input id="Individual" v-model="object" value="Individual pain" class="uk-radio" type="radio" name="Individual">

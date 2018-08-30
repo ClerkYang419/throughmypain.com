@@ -1,24 +1,19 @@
-# 导入:
+# import:
 import json
-
-# from sqlalchemy import Column, String, Integer, Float, Boolean, create_engine, ForeignKey
-# from sqlalchemy.orm import sessionmaker, relationship
-# from sqlalchemy.ext.declarative import declarative_base
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import time
 from sqlalchemy.inspection import inspect
-# Base = declarative_base()
 
+### running as a individual file ###
+# Base = declarative_base()
 # app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:password@localhost:3306/throughmypain'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
+####################################
+
 db = SQLAlchemy()
-
-
-
-
 class Serializer(object):
 
     def serialize(self):
@@ -63,13 +58,6 @@ class users(db.Model):
     def __repr__(self):
         return self.user_name
 
-
-# def dump_datetime(value):
-#     """Deserialize datetime object into string form for JSON processing."""
-#     if value is None:
-#         return None
-#     return [value.strftime("%Y-%m-%d"), value.strftime("%H:%M:%S")]
-
 class records(db.Model):
     __tablename__ = 'Records'
 
@@ -113,8 +101,8 @@ class record_cache(db.Model):
     
     def serialize(self):
         d = Serializer.serialize(self)
-        # del d['password']
         return d
+
     def serialize_list(self):
         d = Serializer.serialize_list(self)
         return d
@@ -134,7 +122,6 @@ class pains(db.Model):
     depth = db.Column(db.String(50))
     frequency = db.Column(db.String(50))
     create_at = db.Column(db.String(50))
-    # Record_ID = db.Column(db.String(50), db.ForeignKey('Records.Record_ID'))
     Users_User_ID = db.Column(db.String(50), db.ForeignKey('Users.User_ID'))
 
     def __init__(self, Pain_ID, region_count, regions, description, pain_character, pain_severity, depth, frequency, User_ID_pain, create_at=time.strftime('%Y-%h-%d %H:%M',time.localtime(time.time()))):
@@ -147,13 +134,12 @@ class pains(db.Model):
         self.depth = depth
         self.frequency = frequency
         self.create_at = create_at
-        # self.Record_ID = Record_ID_pain
         self.Users_User_ID = User_ID_pain
 
     def serialize(self):
         d = Serializer.serialize(self)
-        # del d['password']
         return d
+
     def serialize_list(self):
         d = Serializer.serialize_list(self)
         return d
@@ -207,11 +193,12 @@ class reports(db.Model):
     
     def serialize(self):
         d = Serializer.serialize(self)
-        # del d['password']
         return d
+
     def serialize_list(self):
         d = Serializer.serialize_list(self)
         return d
+        
     def __repr__(self):
         return '<Cell %r>' % self.Cells_ID
 
@@ -222,6 +209,8 @@ def create_app():
     db.init_app(app)
     return app
 
+
+### test ###
 # engine = create_engine('mysql+mysqlconnector://ubuntu:ubuntu@localhost:3306/throughmypain')
 # DBSession = sessionmaker(bind=engine)
 

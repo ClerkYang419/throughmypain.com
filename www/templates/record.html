@@ -5,7 +5,6 @@
 <script>
 
     function inivm(data) {
-        
         var vm = new Vue({   
                    delimiters: ["[[", "]]"],
                    el: '#vm',
@@ -24,7 +23,6 @@
                     }
                    },
                    methods: {
-
                     backlist:function(){
                         window.location.href= "/ulist";
                     }
@@ -36,10 +34,8 @@
         $(function() {
                $.get("/api/get_record", JSON.stringify(this.$data)).done(function(data){
                    var data = JSON.parse(data);
-                //    alert( data.pains_list);
                    inivm(data);
-                  
-                    });
+                });
            });
            
    </script>
@@ -99,10 +95,6 @@
                     </tbody>
                 </table>
             </div>
-            
-            <!-- <div>
-                <canvas></canvas>
-            </div> -->
         </div>
     </form>
 </div>

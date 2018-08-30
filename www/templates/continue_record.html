@@ -46,30 +46,20 @@
                         month[9] = "October";
                         month[10] = "November";
                         month[11] = "December";
-                        this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();
-
-                        
-                        // if(old_data != false){
-                        //     this.$data.brief = JSON.parse(JSON.parse(old_data).record_brief);
-                        //     this.$data.pains_list =  JSON.parse(JSON.parse(old_data).pain_list);
-                        // }
-                        
-
+                        this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();                  
                         this.$data.pains_list = JSON.parse(data.pains_list);
+
                         $.get("/api/get_new_pain",JSON.stringify(this.$data)).done(function(data){
                             vm.$data.pains_list.push(JSON.parse(data));
-                            // vm.$data.pain_count++;
                         });
-                        // if(new_pain){
-                        //     this.$data.pains_list.push(new_pain);
-                        // }  
+
                         if(this.$data.pains_list.length === 0){
                                 this.$data.notif_list = "You have no pain in the list currently";
                         }
                         else{
                             this.$data.notif_list = null;
-                            // this.$data.pains_list = Set(this.$data.pains_list);
-                        }    
+                        }
+
                         this.$data.pain_count = this.$data.pains_list.length;
                    },
 
@@ -79,7 +69,6 @@
                             }
                             else{
                                 this.$data.notif_list = null;
-                                // this.$data.pains_list = Set(this.$data.pains_list);
                             }       
                             this.$data.pain_count = this.$data.pains_list.length;
                    },
@@ -94,7 +83,6 @@
                    methods: {
                         find_ex_pain: function(){
                         $.get("/api/plist", JSON.stringify(this.$data)).done(function(get_pains){
-                            //    alert(JSON.stringify(get_records));
                             if(get_pains == '[]'){
                                 vm.$data.notif = "You have no pain recorded currently";
                                 $("#add_ep").attr("disabled",true);
@@ -102,7 +90,6 @@
                             else{
                                 vm.$data.notif = null;
                                 vm.$data.exist_pains = JSON.parse(get_pains);
-                                // alert(JSON.stringify(vm.$data.exist_pains))
                                 vm.$data.flag_add_ex = true;
                                 $("#add_ep").attr("disabled",true);
                             }
@@ -110,16 +97,13 @@
                        },
 
                        delete_pain: function (pain) {
-                        //    alert(JSON.stringify(pain));
                             var index = this.$data.pains_list.indexOf(pain);
-                            // alert(index);
                             this.$data.exist_pains.unshift(pain);
                             this.$data.pains_list.splice(index,1);
                             this.$data.pain_count--;
                        },
 
                        add_ex_pain: function () {
-                            
                             this.$data.pains_list.push(this.selected_ex_pain);
                             var length = this.$data.pains_list.length;
                             this.$data.pains_list = unique5(this.$data.pains_list);
@@ -130,7 +114,6 @@
                        },
 
                        submit:function () {
-                        // this.$data.pains_list = JSON.stringify(this.$data.pains_list);
                         var data = this.$data;
                         data.pains_list = JSON.stringify(data.pains_list);
                         $.post("/api/add_con_record",JSON.stringify(data)).done(function(data){
@@ -147,7 +130,6 @@
                        },
 
                        add_new_pain: function () {     
-                            // this.$data.pains_list = JSON.stringify(this.$data.pains_list);
                             var data = this.$data;
                             data.pains_list = JSON.stringify(data.pains_list);
                             $.post("/api/add_con_record",JSON.stringify(data)).done(function(data){
@@ -160,16 +142,10 @@
     }
 
         $(function() {
-                            
-                                
-                            $.get('/api/get_record2',JSON.stringify(this.$data)).done(function(data){
-                                // alert(data);
-                                var data = JSON.parse(data);
-                                inivm(data);
-                            });
-                // var rid = 3;
-                
-               // $('#vm').show();
+                    $.get('/api/get_record2',JSON.stringify(this.$data)).done(function(data){
+                        var data = JSON.parse(data);
+                        inivm(data);
+                    });
            });
            
    </script>
@@ -243,10 +219,6 @@
                 </table>
                 [[notif_list]]
             </div>
-            
-            <!-- <div>
-                <canvas></canvas>
-            </div> -->
 
             <div class="uk-margin">
                 <button type="submit" class="uk-button-primary uk-button-small uk-float-right">Done</button>

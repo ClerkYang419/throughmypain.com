@@ -8,26 +8,9 @@ app = model.create_app()
 api = Api(app)
 app.secret_key = os.urandom(24)
 
-parser = reqparse.RequestParser()
-parser.add_argument('test1', type='str')
-parser.add_argument('test2', type='str')
-json_data={'test1':'', 'test2':''}
-
 def pain_cache(json_data):
     data = json_data
     return data
-
-class Test(Resource):
-    def get(self):
-        test = {'test1': session['pid'],
-                'test2': session['rid']}
-        return test,201
-    def post(self):
-        json_data = request.get_json(force=True)
-        test = {'test1': json_data['test1'],'test2': json_data['test2']}
-        return test, 201
-
-api.add_resource(Test, '/api/test')
 
 class Signup(Resource):
     def get(self):
@@ -35,13 +18,12 @@ class Signup(Resource):
     
     def post(self):
         json_data = request.get_json(force=True)
-        user_id=uuid.uuid3(uuid.NAMESPACE_DNS,json_data['username'])
+        user_id=uuid.uuid1()
         new_user = users(str(user_id),json_data['username'],json_data['passwd'],int(time.strftime('%Y',time.localtime(time.time())))-int(json_data['birth_year']), json_data['gender'])
         db.session.add(new_user)
         db.session.commit()
         flash("Sign up successfully")
         return json_data,201
-
 api.add_resource(Signup, '/api/signup')
 
 class Login(Resource):
@@ -58,7 +40,6 @@ class Login(Resource):
         else:
             err = 'invalid username or password'
             return err, 200
-
 api.add_resource(Login, '/api/login')
 
 class Logout(Resource):
@@ -68,7 +49,6 @@ class Logout(Resource):
         session.pop('uid', None)
         flash('you have logged out')
         return 202
-
 api.add_resource(Logout, '/api/logout')
 
 class Rlist(Resource):
@@ -80,7 +60,6 @@ class Rlist(Resource):
     
     def post(self):
         return 200
-
 api.add_resource(Rlist, '/api/rlist')
 
 class Plist(Resource):
@@ -91,7 +70,6 @@ class Plist(Resource):
     
     def post(self):
         return 200
-
 api.add_resource(Plist, '/api/plist')
 
 class RPlist(Resource):
@@ -103,7 +81,6 @@ class RPlist(Resource):
     
     def post(self):
         return 200
-
 api.add_resource(RPlist, '/api/rplist')
 
 class getUID(Resource):
@@ -114,7 +91,6 @@ class getUID(Resource):
         else:
             uid = None
         return json.dumps(uid), 200
-
 api.add_resource(getUID, '/api/get_uid')
 
 class getRID(Resource):
@@ -126,7 +102,6 @@ class getRID(Resource):
             rid = uuid.uuid1()
             session['rid'] = str(rid)
         return json.dumps(session['rid']), 200
-
 api.add_resource(getRID, '/api/get_rid')
 
 class getPID(Resource):
@@ -138,7 +113,6 @@ class getPID(Resource):
             pid = uuid.uuid1()
             session['pid'] = str(pid)
         return json.dumps(session['pid']), 200
-
 api.add_resource(getPID, '/api/get_pid')
 
 class Add_new_record(Resource):
@@ -156,7 +130,6 @@ class Add_new_record(Resource):
         db.session.commit()
         session.pop("rid",None)
         return 202
-
 api.add_resource(Add_new_record, '/api/add_new_record')
 
 class Add_con_record(Resource):
@@ -183,8 +156,6 @@ class Add_con_record(Resource):
             return 202
         else:
             return 200
-        
-
 api.add_resource(Add_con_record, '/api/add_con_record')
 
 class Get_new_pain(Resource):
@@ -218,13 +189,11 @@ class Add_new_pain(Resource):
             regions = str(i)+" "+regions
 
         new_pain = pains(str(pid),json_data['region_count'], regions, json_data['description'],json_data['character'],json_data['severity'],depth,json_data['frequency'],str(uid))
-
         user = users.query.filter_by(user_name = session['username']).first()
         user.pains_number += 1
         db.session.add(new_pain)
         db.session.commit()
         return 202
-
 api.add_resource(Add_new_pain, '/api/add_new_pain')
 
 class get_pain(Resource):
@@ -276,12 +245,7 @@ class get_pains_count(Resource):
             return count, 202
         else:
             return 200
-
 api.add_resource(get_pains_count, '/api/get_pains_count')
-
-@app.route('/test',methods=['GET'])
-def test2():
-    return render_template('test.html')
 
 @app.route('/')
 def index():
@@ -298,41 +262,30 @@ def login_page():
 @app.route('/ulist', methods=['GET'])
 def ulist_page():
     if 'username' in session:
-        # flash('Login successfully')
         session.pop('pid',None)
         session.pop('rid',None)
         return render_template('list.html')
     else:
-        # flash('You have to logged in')
         return redirect(url_for('login_page'))
 
 @app.route('/pain/<pain_id>', methods=['GET'])
 def pain_page(pain_id):
     if 'username' in session:
-        # flash('Login successfully')
         session['pid']=pain_id
         return render_template('pain.html')
     else:
-        # flash('You have to logged in')
         return redirect(url_for('login_page'))
 
 @app.route('/record/<record_id>', methods=['GET'])
 def record_page(record_id):
     if 'username' in session:
-        # flash('Login successfully')
         session['rid']=record_id
         return render_template('record.html')
     else:
-        # flash('You have to logged in')
         return redirect(url_for('login_page'))
 
 @app.route('/new_record', methods=['GET'])
 def new_record_page():
-    # if 'pid' in session:
-    #     # createdPain = pains.query.filter_by(Pain_ID = session['pid']).first()
-    #     return render_template('new_record.html', createdPain)
-    # else:
-    #     pass
     if 'username' in session:
         return render_template('new_record.html')
     else:
@@ -340,38 +293,26 @@ def new_record_page():
 
 @app.route('/continue_record', methods=['GET'])
 def continue_record_page():
-    # if 'pid' in session:
-    #     # createdPain = pains.query.filter_by(Pain_ID = session['pid']).first()
-    #     return render_template('new_record.html', createdPain)
-    # else:
-    #     pass
     if 'username' in session:
         if 'rid' in session:
             return render_template('continue_record.html')
         else:
             return redirect(url_for('ulist_page'))
-        # return render_template('continue_record.html')
     else:
         return redirect(url_for('login_page'))
-    
 
 @app.route('/new_pain', methods=['GET'])
 def new_pain_page():
-
-    # flash('Login successfully')
     if 'username' in session:
         return render_template('new_pain.html')
     else:
         return redirect(url_for('login_page'))
-    
 
 @app.route('/analysis', methods=['POST','GET'])
 def analysis():
     if 'username' in session:
-        # flash('Login successfully')
         return render_template('analysis.html')
     else:
-        # flash('You have to logged in')
         return redirect(url_for('login_page'))
 
 @app.route('/user', methods=['GET'])

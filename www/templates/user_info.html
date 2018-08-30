@@ -21,7 +21,6 @@
                                    vm.username = data.user_name;
                                    vm.age = data.age;
                                    vm.gender = data.gender;
-                                //    vm.pains_number = data.pains_number;
                                    vm.last_record_date = data.last_record_date;
                            });
 
@@ -32,17 +31,13 @@
                    },
                    methods: {
                         submit: function() {
-                                // alert(JSON.stringify(this.$data));
                                 $.post("/api/logout", JSON.stringify(this.$data)).done(function(data2){
-                                // alert(JSON.stringify(data2));
-                               
                                 window.location.href = '/ulist';
                            });
                           
                        }
                    }
                });
-               // $('#vm').show();
            });
            
    </script>
@@ -58,7 +53,6 @@
                 <div class="uk-text-center uk-margin"><span>Age:[[age]]</span></div>
                 <div class="uk-text-center"><span>Gender:[[gender]]</span></div>
                 <div class="uk-text-center uk-margin"><span>Pain count:[[pains_number]]</span></div>
-
                 <div class="uk-text-center uk-margin">
                         <button type="submit" class="uk-button uk-button-primary">Log out</button>
                 </div>

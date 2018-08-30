@@ -71,28 +71,9 @@
                                     });
                             },
                             methods:{
-                                // addChart:function(){
-                                //     // var father = document.getElementById('charts');
-                                //     // father.appendChild();
-                                //     if(this.$data.chart_selection === "barchart"){
-                                //         this.$data.barcharts+=1;
-                                //     }else if(this.$data.chart_selection === "piechart"){
-                                //         this.$data.piecharts+=1;
-                                //     }
-                                // },addChart:function(){
-                                //     // var father = document.getElementById('charts');
-                                //     // father.appendChild();
-                                //     if(this.$data.chart_selection === "barchart"){
-                                //         this.$data.barcharts+=1;
-                                //     }else if(this.$data.chart_selection === "piechart"){
-                                //         this.$data.piecharts+=1;
-                                //     }
-                                // },
                                 save:function(){
-
                                 },
-                                download:function(){
-                                    
+                                download:function(){ 
                                 }
                             }
                         });
@@ -117,7 +98,6 @@
             <div class="uk-width-1-2@m uk-float-right">
                 <label>Object:</label>
                 <div class="radio-group uk-margin-remove-left uk-float-right uk-margin-large-right" >
-                    <!-- <div class="uk-form-label">Radio</div> -->
                     <input id="All" v-model="post.object_1" value="All pain" class="uk-radio" type="radio" name="All">
                     <label for="All" style="padding: 3px 30px">All pain</label>
                     <input id="Individual" v-model="post.object_1" value="Individual pain" class="uk-radio" type="radio" name="Individual">

@@ -3,10 +3,6 @@
 {% block beforehead %}
 <script>
         $(function() {
-            
-            // var a = $.post("/api/signup", JSON.stringify({a:"123",b:"213"})).done(function(data){
-            //                 alert(JSON.stringify(data));
-            //             });
             var vm = new Vue({   
                 delimiters: ["[[", "]]"],
                 el: '#vm',
@@ -20,22 +16,13 @@
                 },
                 methods: {
                     submit: function() {
-                        // alert(JSON.stringify(this.$data));
                         $.post("/api/signup", JSON.stringify(this.$data)).done(function(data2){
-                            // alert(JSON.stringify(data2));
-                            //   alert("data2:"+JSON.stringify(data2));
-                            //  alert("vmdata"+JSON.stringify(vm.$data));
-                            // alert(JSON.stringify(test));
-                            // alert(JSON.stringify(vm.$test1));
-                            // vm.$data = data2;
-                            // this.test2 = JSON.stringify(data.test2);
                             location.href = '/login';
                         });
                        
                     }
                 }
             });
-            // $('#vm').show();
         });
         
         </script>
@@ -53,28 +40,24 @@
             <input v-model="username" class="uk-input uk-form-small uk-width-large" type="username" placeholder="Create your username" name="username" required>
         </div>
         </div>
-
         <div class="uk-margin">
         <div class="uk-inline">
                 <span :uk-icon="'lock'" class="uk-form-icon" ></span>
                 <input v-model="passwd" class="uk-input uk-form-small uk-width-large" type="password"  placeholder="Create your new password" name="new-password" required>
         </div>
         </div>
-
         <div class="uk-margin">
         <div class="uk-inline">
                 <span :uk-icon="'lock'" class="uk-form-icon"></span>
                 <input v-model="re_passwd" class="uk-input uk-form-small uk-width-large" type="password"  placeholder="Repeat your new password" name="re-password" required>
         </div>
         </div>
-
         <div class="uk-margin">
         <div class="uk-inline">
                 <span :uk-icon="'mail'" class="uk-form-icon" ></span>
                 <input v-model="email" class="uk-input uk-form-small uk-width-large" type="email"  placeholder="Fill your Email address" name="email">
         </div>
         </div>
-
         <div class="uk-margin">
             <select v-model="birth_year" class="uk-select uk-form-small uk-width-large" name="birth-select" onmousedown="this.size=7" onchange="this.size=0">
                 <option value="">-- The year of your birth --</option>
@@ -87,7 +70,6 @@
         </div>
 
         <div class="radio-group uk-margin-remove-left uk-margin-bottom" >
-            <!-- <div class="uk-form-label">Radio</div> -->
                 <input id="gender-fe" v-model="gender" value="Female" class="uk-radio" type="radio" name="gender">
                 <label for="gender-fe" style="padding: 3px 20px">Female</label>
                 <input id="gender-ma" v-model="gender" value="Male" class="uk-radio" type="radio" name="gender">
@@ -97,11 +79,9 @@
         <div class="uk-text-center">
             <button type="submit" class="uk-button uk-button-primary">Sign up</button>
         </div>
-            <!-- <button value="login">Login</button> -->
         <div class="uk-text-center">
             <span class="uk-text-small">Already have an account? >></span>
             <a href="/login"><span class="uk-text-small">Log in</span></a>
-            <!-- <button value="login">Login</button> -->
         </div>
     </form>
     <div></div>

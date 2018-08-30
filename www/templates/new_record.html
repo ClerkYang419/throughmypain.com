@@ -47,23 +47,11 @@
                         month[10] = "November";
                         month[11] = "December";
                         this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();
-                        
-                        // if(old_data != false){
-                        //     this.$data.brief = JSON.parse(JSON.parse(old_data).record_brief);
-                        //     this.$data.pains_list =  JSON.parse(JSON.parse(old_data).pain_list);
-                        // }
-
-                        
-                        
-                        // if(new_pain){
-                        //     this.$data.pains_list.push(new_pain);
-                        // }  
                         if(this.$data.pains_list.length === 0){
                                 this.$data.notif_list = "You have no pain in the list currently";
                         }
                         else{
                             this.$data.notif_list = null;
-                            // this.$data.pains_list = Set(this.$data.pains_list);
                         }    
                         this.$data.pain_count = this.$data.pains_list.length;
                    },
@@ -74,7 +62,6 @@
                             }
                             else{
                                 this.$data.notif_list = null;
-                                // this.$data.pains_list = Set(this.$data.pains_list);
                             }       
                    },
 
@@ -88,7 +75,6 @@
                    methods: {
                         find_ex_pain: function(){
                         $.get("/api/plist", JSON.stringify(this.$data)).done(function(get_pains){
-                            //    alert(JSON.stringify(get_records));
                             if(get_pains == '[]'){
                                 vm.$data.notif = "You have no pain recorded currently";
                                 $("#add_ep").attr("disabled",true);
@@ -96,7 +82,6 @@
                             else{
                                 vm.$data.notif = null;
                                 vm.$data.exist_pains = JSON.parse(get_pains);
-                                // alert(JSON.stringify(vm.$data.exist_pains))
                                 vm.$data.flag_add_ex = true;
                                 $("#add_ep").attr("disabled",true);
                             }
@@ -104,47 +89,35 @@
                        },
 
                        delete_pain: function (pain) {
-                        //    alert(JSON.stringify(pain));
                             var index = this.$data.pains_list.indexOf(pain);
-                            // alert(index);
                             this.$data.exist_pains.unshift(pain);
                             this.$data.pains_list.splice(index,1);
                             this.$data.pain_count--;
                        },
 
                        add_ex_pain: function () {
-                            
                             this.$data.pains_list.push(this.selected_ex_pain);
                             var length = this.$data.pains_list.length;
                             this.$data.pains_list = unique5(this.$data.pains_list);
                             if(this.$data.pains_list.length == length){
                                 this.$data.exist_pains.splice(this.$data.exist_pains.indexOf(this.selected_ex_pain),1);
-                                // this.$data.pains_list = Set(this.$data.pains_list);
                                 this.$data.pain_count++;
                             }
-                            
-
-                            // alert(JSON.stringify(vm.$data.pains_list));
                        },
 
                        submit:function () {
-                        // var data = {
-                        //     "pain_count":this.$data.pain_count,
-                        //     "brief":this.$data.brief
-                        // };
-                        // alert(data);
-                        this.$data.pains_list = JSON.stringify(this.$data.pains_list);
-                        $.post("/api/add_new_record",JSON.stringify(this.$data)).done(function(data){
-                            window.location.href = "/ulist";
-                        });
+                            this.$data.pains_list = JSON.stringify(this.$data.pains_list);
+                            $.post("/api/add_new_record",JSON.stringify(this.$data)).done(function(data){
+                                window.location.href = "/ulist";
+                            });
                        },
 
                        cancel:function(){
-                        if (confirm("\nYou will lose information of this page.\n\nDo you want to continue?\n")){
-                            window.location.href = "/ulist";
-                        }else{
-                            return 
-                        }
+                            if (confirm("\nYou will lose information of this page.\n\nDo you want to continue?\n")){
+                                window.location.href = "/ulist";
+                            }else{
+                                return 
+                            }
                        },
 
                        add_new_pain: function () {   
@@ -160,39 +133,10 @@
 
         $(function() {
                $.get("/api/get_rid", JSON.stringify(this.$data)).done(function(rid){
-                            // alert(JSON.stringify(data));
-                            // var getData = JSON.parse(data); 
                             var rid = JSON.parse(rid);
-                            // var old_data = false;
-                            // $.get("/api/new_record_cache", JSON.stringify(this.$data)).done(function(data2){
-                            //     if(data2 != 200){
-                            //         // alert(JSON.parse(data2).record_brief);
-                            //         // alert(JSON.parse(data2).pain_list);
-                            //         // alert(vm.$data.pains_list);
-                            //         old_data = data2;
-                            //     }
-                                // $.get("/api/get_new_pain", JSON.stringify(this.$data)).done(function(data3){
-                                //     // alert(data2);
-                                //     if(data3 != 200){
-                                //         var new_pain =  JSON.parse(data3);
-                                //         var vm = inivm(rid, old_data, new_pain);
-                                //     }else{
-                                //         var vm = inivm(rid, old_data);
-                                //     }
-                                // });
-
-                            // });
-                            // alert(rid);
-                            
-                            inivm(rid);
-
-                            
+                            inivm(rid);  
                     });
-                // var rid = 3;
-                
-               // $('#vm').show();
            });
-           
    </script>
 
 {% endblock %}
@@ -225,11 +169,10 @@
     
             <div class="uk-margin">
                 <button v-on:click="add_new_pain" type="button" class="uk-button-small uk-button-primary" uk-tooltip="title: Click me, if you have a new pain need to be recorded; pos: left;">Add new pain</button>
-                <button @click.once="find_ex_pain" id="add_ep" type="button" class="uk-button-small uk-button-default" uk-tooltip="title: Click me, if you want to update an pain recorded in last few days; pos: right">Add existing pain</button>
+                <button @click.once="find_ex_pain" id="add_ep" type="button" class="uk-button-small uk-button-default" uk-tooltip="title: Click me, if you want to update an pain recorded in last few days; pos: right">Add recorded pain</button>
             </div>
             [[notif]]
             <div class="uk-margin" v-if="flag_add_ex">
-                
                 <select v-model="selected_ex_pain" class="uk-select uk-form-small uk-width-5-6">
                         <option value="" disabled>-- Select pains recorded before --</option>
                         <option v-bind:value="pain" v-for="pain of exist_pains">[[pain.create_at]], [[pain.description]], [[pain.depth]], [[ pain.frequency]], #[[pain.Pain_ID | id_filter]]</option>
@@ -264,11 +207,6 @@
                 </table>
                 [[notif_list]]
             </div>
-            
-            <!-- <div>
-                <canvas></canvas>
-            </div> -->
-
             <div class="uk-margin">
                 <button type="submit" class="uk-button-primary uk-button-small uk-float-right">Done</button>
                 <button type="button" @click="cancel" class="uk-button-default uk-button-small uk-float-right uk-margin-right">Cancel</button>
