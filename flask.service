@@ -1,0 +1,12 @@
+[Unit]
+Description = flask web app
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart = /home/ubuntu/throughmypain/throughmypain.com/www/fsk.py
+Environment=PATH=/usr/bin:/usr/local/bin
+Restart=on-failure
+WorkingDirectory=/home/ubuntu/throughmypain/throughmypain.com/www/

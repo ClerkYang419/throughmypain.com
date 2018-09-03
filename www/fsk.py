@@ -14,7 +14,7 @@ def pain_cache(json_data):
 
 class Signup(Resource):
     def get(self):
-        return {'a':'1'},201
+        return 201
     
     def post(self):
         json_data = request.get_json(force=True)
@@ -28,7 +28,7 @@ api.add_resource(Signup, '/api/signup')
 
 class Login(Resource):
     def get(self):
-        return {'a':'1'},201
+        return 201
     
     def post(self):
         json_data = request.get_json(force=True)
