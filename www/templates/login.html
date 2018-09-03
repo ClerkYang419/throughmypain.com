@@ -11,14 +11,16 @@
                        passwd: '',
                    },
                    methods: {
-                       submit: function() {
+                       sub: function() {
                             $.post("/api/login", JSON.stringify(this.$data)).done(function(data2){
                                 if(data2 != 202){
                                     alert(JSON.stringify(data2));
                                 }
-                            window.location.href = '/ulist';
+                                var obj = document.getElementById('alink');
+                                obj.href="/ulist";
+                                obj.click();
                            });
-                          
+                           
                        }
                    }
                });
@@ -30,8 +32,9 @@
 
 {% block content %}
 <section uk-grid class="uk-child-width-1-3@m">
+        <a id="alink" href="#" style="display: none;"></a> 
     <div></div>
-    <form  id="vm"  v-on:submit="submit" class="uk-margin">
+    <form  id="vm" class="uk-margin">
         <div><dt class="uk-text-small">Log in to continue</dt></div>
         <div class="uk-margin">
         <div class="uk-inline">
@@ -46,7 +49,7 @@
         </div>
         </div>
         <div class="uk-text-center">
-            <button type="submit" class="uk-button uk-button-primary">Log in</button>
+            <button type="button" @click="sub" class="uk-button uk-button-primary">Log in</button>
         </div>
             
         <div class="uk-text-center">

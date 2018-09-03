@@ -30,7 +30,7 @@
                            });
                    },
                    methods: {
-                        submit: function() {
+                        sub: function() {
                                 $.post("/api/logout", JSON.stringify(this.$data)).done(function(data2){
                                 window.location.href = '/ulist';
                            });
@@ -47,14 +47,14 @@
 {% block content %}
 <section uk-grid class="uk-child-width-1-3@m">
         <div></div>
-        <form id="vm" v-on:submit="submit" class="uk-box-shadow-bottom uk-box-shadow-large uk-box-shadow-hover-medium uk-margin uk-padding uk-card uk-card-body">
+        <form id="vm" class="uk-box-shadow-bottom uk-box-shadow-large uk-box-shadow-hover-medium uk-margin uk-padding uk-card uk-card-body">
                 <div class="uk-text-center uk-margin"><img class="uk-border-circle" src="../static/image/aaa.png" width="100px" height="100px" alt="" uk-img></div>
                 <div class="uk-text-center uk-margin uk-card-title"><span v-text="username"></span></div>
                 <div class="uk-text-center uk-margin"><span>Age:[[age]]</span></div>
                 <div class="uk-text-center"><span>Gender:[[gender]]</span></div>
                 <div class="uk-text-center uk-margin"><span>Pain count:[[pains_number]]</span></div>
                 <div class="uk-text-center uk-margin">
-                        <button type="submit" class="uk-button uk-button-primary">Log out</button>
+                        <button type="button" @click="sub" class="uk-button uk-button-primary">Log out</button>
                 </div>
         </form>
         <div></div>

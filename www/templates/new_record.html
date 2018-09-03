@@ -105,7 +105,7 @@
                             }
                        },
 
-                       submit:function () {
+                        sub:function () {
                             this.$data.pains_list = JSON.stringify(this.$data.pains_list);
                             $.post("/api/add_new_record",JSON.stringify(this.$data)).done(function(data){
                                 window.location.href = "/ulist";
@@ -144,7 +144,7 @@
 {% block content %}
 
 <div class="uk-padding uk-padding-remove-top">
-    <form id="vm" v-on:submit.prevent="submit" class="uk-width-5-6 uk-align-center">
+    <form id="vm" class="uk-width-5-6 uk-align-center">
         <div>
             <div class="uk-inline-block">
                 <span>Record ID:</span>
@@ -208,7 +208,7 @@
                 [[notif_list]]
             </div>
             <div class="uk-margin">
-                <button type="submit" class="uk-button-primary uk-button-small uk-float-right">Done</button>
+                <button type="button" @click="sub" class="uk-button-primary uk-button-small uk-float-right">Done</button>
                 <button type="button" @click="cancel" class="uk-button-default uk-button-small uk-float-right uk-margin-right">Cancel</button>
             </div>
         </div>

@@ -88,7 +88,7 @@
                         this.$data.date=date.getDate()+"-"+month[date.getMonth()]+"-"+date.getFullYear();
                    },
                    methods: {
-                        submit:function () {
+                        sub:function () {
                             for(var i in this.$data.regions){
                                 if(this.$data.regions[i] === true){
                                     this.$data.regions_index.push(i);
@@ -153,7 +153,7 @@
 
 {% block content %}
 <div class="uk-padding uk-padding-remove-top">
-    <form id="vm" v-on:submit.prevent="submit" class="uk-width-4-5 uk-align-center">
+    <form id="vm" class="uk-width-4-5 uk-align-center">
         <div>
             <div class="uk-inline-block">
                 <span>Pain ID:</span>
@@ -236,7 +236,7 @@
                 </div>
             </div>
             <div class="uk-margin">
-                <button type="submit" class="uk-button uk-button-primary">Done</button>
+                <button type="button" @click="sub" class="uk-button uk-button-primary">Done</button>
                 <button type="button" @click="cancel" class="uk-button uk-button-default" >Cancel</button>
             </div>
         </div>
