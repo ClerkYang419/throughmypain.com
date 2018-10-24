@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `throughmypain`.`Reports` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-drop user 'ubuntu'@'localhost';
+
 flush privileges;
 CREATE USER 'ubuntu'@'localhost' identified by 'ubuntu';
 GRANT SELECT, ALTER, DROP, INSERT, UPDATE, DELETE ON TABLE `throughmypain`.* TO 'ubuntu'@'localhost';
